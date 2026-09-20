@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import FadeAnimation from "../components/ui/FadeAnimation";
 import { Link } from "react-router-dom";
 import { getNews } from "../services/firestore";
-
+import { ImageUpscaleIcon } from "lucide-react";
 const News = () => {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -80,7 +80,7 @@ const News = () => {
 
                       {subImages.length > 0 && (
                         <button type="button" className="news-item__viewall" onClick={() => openGallery(item)}>
-                          <svg
+                          {/* <svg
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -90,7 +90,8 @@ const News = () => {
                           >
                             <rect x="3" y="3" width="13" height="13" rx="2" />
                             <path d="M8 21h10a2 2 0 0 0 2-2V9" />
-                          </svg>
+                          </svg> */}
+                          {<ImageUpscaleIcon />}
                           عرض كل الصور
                         </button>
                       )}
