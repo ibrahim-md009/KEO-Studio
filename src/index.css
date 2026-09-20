@@ -2378,7 +2378,7 @@ body {
   .booking-form {
     position: relative;
     z-index: 2;
-    margin-top: -70px;
+    margin-top: -20px;
     box-shadow: 0 -16px 28px -14px rgba(0, 0, 0, 0.18);
   }
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FadeAnimation from "../components/ui/FadeAnimation";
+import { Calendar, Clock, Heart } from "lucide-react";
 
 const WHATSAPP_NUMBER = "972567574848";
 
@@ -108,23 +109,15 @@ const Booking = () => {
             <p>بمجرد إرسال النموذج، سيُفتح واتساب تلقائياً برسالة جاهزة تحتوي كل تفاصيلكم — فقط اضغطوا إرسال.</p>
             <ul className="booking-info__list">
               <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 7v5l3 3" />
-                </svg>
+                <Clock />
                 <span>سنتواصل معكم لتأكيد الموعد خلال 24 ساعة</span>
               </li>
               <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <rect x="3" y="5" width="18" height="16" rx="2" />
-                  <path d="M8 3v4M16 3v4M3 10h18" />
-                </svg>
+                <Calendar />
                 <span>يُفضّل الحجز قبل أسبوع على الأقل من موعد المناسبة</span>
               </li>
               <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="M12 21s-7-4.5-9.5-9C.5 8 3 4 7 4c2 0 3.5 1 5 3 1.5-2 3-3 5-3 4 0 6.5 4 4.5 8-2.5 4.5-9.5 9-9.5 9z" />
-                </svg>
+                <Heart />
                 <span>كل التفاصيل تصلنا مباشرة، ما في داعي تتصلوا فينا يدوياً</span>
               </li>
             </ul>
