@@ -101,7 +101,7 @@ const Booking = () => {
         </p>
       </div>
 
-      <section className="section section--tight" style={{ padding: "20px" }}>
+      <section className="section section--tight" style={{ paddingTop: "20px" }}>
         <div className="container booking-wrap">
           <FadeAnimation as="aside" className="booking-info">
             <h3>كيف يتم الحجز؟</h3>
@@ -129,7 +129,7 @@ const Booking = () => {
               </li>
             </ul>
             <a href="https://wa.me/972567574848" target="_blank" rel="noopener" className="btn btn--whatsapp btn--full">
-              <span className="send-whats">تواصل مباشرةً عبر واتساب</span>
+              <span className="send-whats">تواصل مباشر عبر واتساب</span>
             </a>
           </FadeAnimation>
 

@@ -15,7 +15,6 @@
   --font-body: "Naveid Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
   --font-thin: "Naveid Arabic Thin", "Segoe UI", Tahoma, Arial, sans-serif;
   --font-numbers: "Changa", "Segoe UI", Tahoma, Arial, sans-serif;
-  --container: 1180px;
   --radius: 12px;
 }
 
@@ -116,7 +115,7 @@ button {
 }
 
 .container {
-  max-width: var(--container);
+  max-width: 1180px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -635,7 +634,6 @@ body.no-scroll {
 .btn--whatsapp {
   background: var(--olive);
   color: var(--white-soft);
-  padding: 5px;
 }
 .btn--whatsapp:hover {
   background: var(--olive-dark);
@@ -2366,19 +2364,31 @@ body {
   }
 }
 
-/* ---------- 3) صفحة الحجز: الكارتين منفصلين على الموبايل ----------
-   الـ sticky مفيد بس في الديسكتوب (عمودين). على الموبايل العمود واحد،
-   فكان الكارت بيلزق فوق ويتغطى بالفورم. */
+/* ---------- 3) صفحة الحجز: تأثير التغطية على الموبايل ----------
+   الانفو بيفضل sticky زي الديسكتوب بالظبط، بس دلوقتي بنعمل overlap
+   حقيقي (margin سالب) + z-index واضح، عشان الفورم فعلاً يعدي فوقه
+   ويغطيه بدل ما يقف جنبه بمسافة. الديسكتوب مش متأثر خالص. */
 @media (max-width: 900px) {
-  .booking-info {
-    position: static;
-    top: auto;
+  .booking-wrap {
+    gap: 0;
   }
-  .send-whats {
-    font-size: 12px;
+  .booking-info {
+    z-index: 1;
+  }
+  .booking-form {
+    position: relative;
+    z-index: 2;
+    margin-top: -70px;
+    box-shadow: 0 -16px 28px -14px rgba(0, 0, 0, 0.18);
   }
 }
 
-/* .num-inp {
-  font-family: var(--font-numbers);
-} */
+/* صفحة الحجز: نفس زوايا الموقع الأصلي (--radius: 2px) بدون التأثير على باقي الصفحات
+   (المتغيّر العام في :root بقي 12px كما هو). */
+#page-booking {
+  --radius: 2px;
+}
+
+.send-whats {
+  font-size: 12px;
+}

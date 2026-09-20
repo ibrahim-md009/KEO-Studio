@@ -1,7 +1,7 @@
 import Hero from "./Hero";
 import About from "./About";
 import Why from "./Why";
-import Final from "./Final";
+import Final from "../../components/layout/Final";
 
 const index = () => {
   return (
@@ -9,7 +9,10 @@ const index = () => {
       <Hero />
       <Why />
       <About />
-      <Final />
+      <Final
+        title="جاهزون نوثّق مناسبتكم القادمة؟"
+        text="احجزوا موعدكم خلال دقيقة، ونرسل لكم التأكيد مباشرة على واتساب."
+      />
     </>
   );
 };

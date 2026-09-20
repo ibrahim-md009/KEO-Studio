@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import FadeAnimation from "../components/ui/FadeAnimation";
-import { Link } from "react-router-dom";
 import useCached from "../hooks/useChached";
 import { QUERIES } from "../services/queries";
 import { ImageUpscaleIcon } from "lucide-react";
+import Final from "../components/layout/Final";
+
 const News = () => {
   const { data, loading } = useCached(QUERIES.news.key, QUERIES.news.fetcher);
   const newsData = data ?? [];
@@ -81,25 +82,7 @@ const News = () => {
         </div>
       </section>
 
-      <section className="cta-final">
-        <div className="container">
-          <FadeAnimation>
-            <h2 className="section__title">حابين تكونوا جزءً من قصتنا؟</h2>
-          </FadeAnimation>
-
-          <FadeAnimation>
-            <p className="section__text section__text--muted">
-              احجزوا جلستكم اليوم وتابعوا أخبارنا لأحدث الباقات والعروض.
-            </p>
-          </FadeAnimation>
-
-          <FadeAnimation className="cta-final__row">
-            <Link to="/booking" className="btn btn--primary">
-              احجزي موعدك الآن
-            </Link>
-          </FadeAnimation>
-        </div>
-      </section>
+      <Final title="حابين تكونوا جزءً من قصتنا؟" text="احجزوا جلستكم اليوم وتابعوا أخبارنا لأحدث الباقات والعروض." />
 
       {/* ============ عارض الصور: تمرير عمودي، كل الصور تحت بعض ============ */}
       {lightbox.open && (

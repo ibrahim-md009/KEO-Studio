@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import FadeAnimation from "../components/ui/FadeAnimation";
 import useCached from "../hooks/useChached";
 import { QUERIES } from "../services/queries";
-import { Link } from "react-router-dom";
+import Final from "../components/layout/Final";
 
 const Works = () => {
   const { data, loading } = useCached(QUERIES.works.key, QUERIES.works.fetcher);
@@ -119,17 +119,7 @@ const Works = () => {
         </div>
       )}
 
-      <section className="cta-final">
-        <div className="container">
-          <FadeAnimation className="section__title ">أعجبتكم أعمالنا؟</FadeAnimation>
-          <FadeAnimation className="section__text ">احجزوا جلستكم الآن ولنصنع سوياً لحظة تستحق التوثيق.</FadeAnimation>
-          <FadeAnimation className="cta-final__row ">
-            <Link to="/booking" data-page="booking" className="btn btn--primary">
-              احجزي موعدك الآن
-            </Link>
-          </FadeAnimation>
-        </div>
-      </section>
+      <Final title="أعجبتكم أعمالنا؟" text="احجزوا جلستكم الآن ولنصنع سوياً لحظة تستحق التوثيق." />
     </section>
   );
 };

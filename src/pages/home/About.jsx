@@ -1,5 +1,11 @@
 import FadeAnimation from "../../components/ui/FadeAnimation";
 
+const STATS_DATA = [
+  { id: "sessions", value: "+500", label: "جلسة موثّقة" },
+  { id: "experience", value: "+8", label: "سنوات خبرة" },
+  { id: "satisfaction", value: "98٪", label: "رضا العملاء" },
+];
+
 const About = () => {
   return (
     <section className="section section--cream2">
@@ -12,22 +18,19 @@ const About = () => {
               نصممها بعناية من الإضاءة إلى أدق التفاصيل.
             </span>
           </p>
+
           <p className="about__text">
             فريقنا يستمع لقصتكم أولاً، ثم يترجمها بصرياً بأسلوب هادئ بعيد عن المبالغة، ليبقى التركيز على اللحظة نفسها.
           </p>
           <div className="about__stats">
-            <div className="about__stat">
-              <b>+500</b>
-              <span>جلسة موثّقة</span>
-            </div>
-            <div className="about__stat">
-              <b>+8</b>
-              <span>سنوات خبرة</span>
-            </div>
-            <div className="about__stat">
-              <b>98٪</b>
-              <span>رضا العملاء</span>
-            </div>
+            {STATS_DATA.map((stat) => {
+              return (
+                <div key={stat.id} className="about__stat">
+                  <b>{stat.value}</b>
+                  <span>{stat.label}</span>
+                </div>
+              );
+            })}
           </div>
         </FadeAnimation>
       </div>

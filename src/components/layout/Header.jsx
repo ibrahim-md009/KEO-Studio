@@ -24,11 +24,11 @@ const Header = () => {
   return (
     <header className={`nav ${isScrolled ? "is-scrolled" : ""}`}>
       <div className="container nav__inner">
-        <Link to="/" className="nav__logo" data-page="home">
+        <Link to="/" className="nav__logo">
           <img className="brand-mark" src="/download.png" alt="" />
         </Link>
 
-        <nav className="nav__links" id="nav-links">
+        <nav className="nav__links">
           {navLinks.map((link, index) => {
             return (
               <NavLink key={index} to={link.url} className={({ isActive }) => (isActive ? "is-active" : "")}>
@@ -41,6 +41,7 @@ const Header = () => {
             احجزي موعدك
           </Link>
         </nav>
+
         <a
           className="nav__whatsapp"
           href="https://wa.me/972567574848"
