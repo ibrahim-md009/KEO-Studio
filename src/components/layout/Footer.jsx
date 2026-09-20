@@ -46,7 +46,10 @@ const Footer = () => {
       <div className="container">
         <div className="footer__inner">
           <div>
-            <div className="footer__logo">Artix Studio</div>
+            <div className="footer__logo">
+              <img className="brand-mark" src="/white.png" alt="" />
+              KEO
+            </div>
             <p className="tempo">استديو تصوير فاخر، نوثّق مناسباتكم بلمسة أصيلة وهادئة.</p>
           </div>
 
@@ -94,7 +97,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer__bottom">© Artix Studio — جميع الحقوق محفوظة</div>
+        <div className="footer__bottom">© KEO — جميع الحقوق محفوظة</div>
       </div>
     </footer>
   );

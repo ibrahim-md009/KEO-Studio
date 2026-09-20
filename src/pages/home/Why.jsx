@@ -6,7 +6,7 @@ const Why = () => {
       <div className="container">
         <div className="section__head ">
           <span className="section__eyebrow">
-            <span>ليه</span> Artix Studio
+            <span>ليه</span> KEO
           </span>
           <h2 className="section__title">تجربة تصوير هادئة، بنتيجة تبقى</h2>
           <p className="section__text">نتعامل مع كل جلسة كقصة قائمة بذاتها، بإضاءة وتفاصيل تُحاكي طابعكم الخاص.</p>

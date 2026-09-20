@@ -25,7 +25,7 @@ const Header = () => {
     <header className={`nav ${isScrolled ? "is-scrolled" : ""}`}>
       <div className="container nav__inner">
         <Link to="/" className="nav__logo" data-page="home">
-          <span>Artix</span> Studio
+          <img className="brand-mark" src="/download.png" alt="" />
         </Link>
 
         <nav className="nav__links" id="nav-links">

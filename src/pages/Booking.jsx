@@ -193,7 +193,7 @@ const Booking = () => {
     const occasionLabel = OCCASIONS.find((o) => o.value === formData.occasion)?.label || formData.occasion;
 
     const lines = [
-      "مرحباً Artix Studio 🫒",
+      "مرحباً KEO Studio 🫒",
       "أرغب بحجز موعد تصوير، وهذه تفاصيلي:",
       "",
       `👤 الاسم: ${formData.name.trim()}`,

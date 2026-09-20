@@ -7,8 +7,8 @@ const index = () => {
   return (
     <>
       <Hero />
-      <About />
       <Why />
+      <About />
       <Final />
     </>
   );

@@ -1,23 +1,84 @@
-@import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800&display=swap");
-
 :root {
-  --olive-dark: #333823;
-  --olive: #5c6140;
-  --olive-mid: #8b8f63;
-  --olive-light: #c8cba8;
-  --cream: #f6f1e5;
-  --cream-2: #efe8d6;
-  --gold: #c6941f;
-  --gold-soft: #e3b94d;
-  --charcoal: #2a2a22;
-  --white-soft: #fbf9f3;
+  /* الأسماء القديمة (olive) بقيت كما هي لتجنب تغيير الكود، لكن القيم صارت ألوان الهوية الجديدة */
+  --olive-dark: #194d41; /* أساسي — أخضر غامق */
+  --gold: #cba135; /* أساسي — ذهبي */
+  --olive: #64987f; /* فرعي — أخضر فاتح */
+  --cream-2: #eedfb6; /* فرعي — بيج */
+  --olive-mid: #64987f;
+  --olive-light: #eedfb6;
+  --cream: #fff6dd; /* خلفية الصفحة (كريمي الدليل اللوني) */
+  --gold-soft: #d8b868; /* درجة أفتح من الذهبي للحدود والـ hover */
+  --charcoal: #10352c; /* لون النص — أخضر داكن جداً */
+  --white-soft: #fffcf2;
 
-  --font-display: "Amiri", "Traditional Arabic", serif;
-  --font-body: "Tajawal", "Segoe UI", sans-serif;
-
+  --font-display: "Naveid Arabic ExtraBold", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-body: "Naveid Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-thin: "Naveid Arabic Thin", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-numbers: "Changa", "Segoe UI", Tahoma, Arial, sans-serif;
   --container: 1180px;
   --radius: 2px;
 }
+
+/* ============================================
+   خط Naveid Arabic — الثلاث ملفات المرسلة فقط،
+   كل وحدة باسم مستقل عشان الاختيار يبقى صريح مش تلقائي
+   ============================================ */
+@font-face {
+  font-family: "Naveid Arabic Thin";
+  src: url("./assets/fonts/naveid-arabic-demo_thin.woff2") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Naveid Arabic";
+  src: url("./assets/fonts/naveid-arabic-demo_regular.woff2") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Naveid Arabic ExtraBold";
+  src: url("./assets/fonts//naveid-arabic-demo_extra-bold.woff2") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
+   رقعة مؤقتة للأرقام (0-9)
+   نسخة الديمو من Naveid عندها كل الأرقام بنفس الشكل الوهمي
+   (نفس الإحداثيات بالظبط في التلاتة أوزان، والرقم 9 مش موجود خالص)
+   فبنسحب الأرقام بس من خط Changa (بديل قريب الشكل) لحد ما تجيب
+   نسخة Naveid المرخّصة، وترجع تشيل الجزء ده وتمسحه
+   ============================================ */
+/* @font-face {
+  font-family: "Naveid Arabic Thin";
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/changa:vf@5.3.0/latin-wght-normal.woff2")
+    format("woff2-variations");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: "Naveid Arabic";
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/changa:vf@5.3.0/latin-wght-normal.woff2")
+    format("woff2-variations");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: "Naveid Arabic ExtraBold";
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/changa:vf@5.3.0/latin-wght-normal.woff2")
+    format("woff2-variations");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+} */
 
 * {
   box-sizing: border-box;
@@ -26,6 +87,7 @@
 }
 html {
   scroll-behavior: smooth;
+  direction: rtl;
 }
 
 body {
@@ -35,7 +97,6 @@ body {
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  direction: rtl;
 }
 
 img {
@@ -91,7 +152,13 @@ textarea:focus-visible {
 /* ============================================
    نظام الصفحات (بديل التنقل بين الملفات)
    ============================================ */
-
+.page {
+  display: none;
+}
+.page.is-active {
+  display: block;
+  animation: pageFade 0.5s ease;
+}
 @keyframes pageFade {
   from {
     opacity: 0;
@@ -119,9 +186,9 @@ textarea:focus-visible {
     box-shadow 0.4s ease;
 }
 .nav.is-scrolled {
-  background: rgba(246, 241, 229, 0.97);
+  background: rgba(255, 246, 221, 0.97);
   padding: 14px 0;
-  box-shadow: 0 1px 0 rgba(63, 68, 41, 0.12);
+  box-shadow: 0 1px 0 rgba(25, 77, 65, 0.12);
   border-bottom: 1px solid var(--gold-soft);
 }
 .nav__inner {
@@ -137,9 +204,6 @@ textarea:focus-visible {
   letter-spacing: 0.5px;
   background: none;
   border: none;
-}
-.nav__logo span {
-  color: var(--gold);
 }
 .nav__links {
   display: flex;
@@ -190,10 +254,36 @@ textarea:focus-visible {
   transform: translateY(-1px);
 }
 
+/* ---------- شعار العلامة ---------- */
+.brand-mark {
+  height: 42px;
+  width: auto;
+  display: block;
+  flex: none;
+}
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.footer__logo .brand-mark {
+  height: 46px;
+}
+@media (max-width: 860px) {
+  .nav__logo .brand-mark {
+    height: 36px;
+  }
+}
+
 .nav__overlay {
   position: fixed;
   inset: 0;
-  background: rgba(42, 42, 34, 0.45);
+  background: rgba(16, 53, 44, 0.45);
   z-index: 95;
   opacity: 0;
   visibility: hidden;
@@ -311,15 +401,14 @@ body.no-scroll {
     padding: 8px;
     justify-content: center;
     border-radius: 26px;
-    background: rgba(246, 241, 229, 0.62);
+    background: rgba(255, 246, 221, 0.62);
     backdrop-filter: blur(18px) saturate(180%);
     -webkit-backdrop-filter: blur(18px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.5);
     box-shadow:
-      0 14px 36px rgba(42, 42, 34, 0.22),
+      0 14px 36px rgba(16, 53, 44, 0.22),
       inset 0 1px 0 rgba(255, 255, 255, 0.5);
     max-width: calc(100% - 24px);
-    opacity: 1;
   }
   /* لا خلفية للعنصر النشط؛ فقط الأيقونة والاسم بالزيتي */
   .bottom-nav__indicator {
@@ -386,7 +475,7 @@ body.no-scroll {
 }
 @media (max-width: 860px) {
   body {
-    padding-bottom: 200px;
+    padding-bottom: 0;
   }
 }
 
@@ -418,8 +507,8 @@ body.no-scroll {
   position: relative;
   padding: 150px 24px 90px;
   background:
-    radial-gradient(ellipse 60% 45% at 20% 8%, rgba(198, 148, 31, 0.2), transparent 60%),
-    radial-gradient(ellipse 55% 50% at 85% 15%, rgba(51, 56, 35, 0.28), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 20% 8%, rgba(203, 161, 53, 0.2), transparent 60%),
+    radial-gradient(ellipse 55% 50% at 85% 15%, rgba(100, 152, 127, 0.3), transparent 55%),
     linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
   overflow: hidden;
 }
@@ -427,7 +516,7 @@ body.no-scroll {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(63, 68, 41, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(25, 77, 65, 0.08) 1px, transparent 1px);
   background-size: 26px 26px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent);
   pointer-events: none;
@@ -442,7 +531,7 @@ body.no-scroll {
 .hero__eyebrow {
   font-size: 1rem;
   letter-spacing: 3px;
-  color: var(--olive);
+  color: var(--olive-dark);
   font-weight: 700;
   margin-bottom: 22px;
   opacity: 0;
@@ -474,7 +563,7 @@ body.no-scroll {
   }
 }
 .hero__title em {
-  font-style: italic;
+  font-style: normal;
   color: var(--gold);
 }
 .hero__subtitle {
@@ -532,7 +621,7 @@ body.no-scroll {
 .btn--primary:hover {
   background: var(--gold);
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(176, 140, 79, 0.3);
+  box-shadow: 0 10px 24px rgba(203, 161, 53, 0.3);
 }
 .btn--ghost {
   background: transparent;
@@ -586,7 +675,6 @@ body.no-scroll {
 }
 .section--tight {
   padding: 56px 0;
-  padding-top: 0;
 }
 .section--olive {
   background: var(--olive-dark);
@@ -622,7 +710,7 @@ body.no-scroll {
 .section__text {
   margin-top: 18px;
   font-size: 1.05rem;
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 /* ---------- بطاقات "ليه نحنا؟" (أيقونات) ---------- */
@@ -649,7 +737,7 @@ body.no-scroll {
 }
 .icard:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(63, 68, 41, 0.12);
+  box-shadow: 0 20px 40px rgba(25, 77, 65, 0.12);
   border-color: var(--gold-soft);
 }
 .icard__icon {
@@ -709,13 +797,13 @@ body.no-scroll {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(155deg, rgba(107, 113, 72, 0.55), rgba(63, 68, 41, 0.72));
+  background: linear-gradient(155deg, rgba(100, 152, 127, 0.55), rgba(25, 77, 65, 0.72));
 }
 .about__frame__border {
   content: "";
   position: absolute;
   inset: 16px;
-  border: 1px solid rgba(251, 249, 243, 0.35);
+  border: 1px solid rgba(255, 252, 242, 0.35);
   z-index: 2;
   pointer-events: none;
 }
@@ -724,7 +812,7 @@ body.no-scroll {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-image: radial-gradient(rgba(251, 249, 243, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 252, 242, 0.08) 1px, transparent 1px);
   background-size: 16px 16px;
 }
 .about__frame .corner {
@@ -786,7 +874,7 @@ body.no-scroll {
 }
 .about__stat b {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-numbers);
   font-size: 3rem;
   line-height: 1.1;
   color: var(--gold);
@@ -878,7 +966,7 @@ body.no-scroll {
   flex-wrap: wrap;
   gap: 40px;
   padding-bottom: 36px;
-  border-bottom: 1px solid rgba(246, 241, 229, 0.12);
+  border-bottom: 1px solid rgba(255, 246, 221, 0.12);
 }
 .footer__logo {
   font-family: var(--font-display);
@@ -919,7 +1007,7 @@ body.no-scroll {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid rgba(251, 249, 243, 0.25);
+  border: 1px solid rgba(255, 252, 242, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -945,7 +1033,7 @@ body.no-scroll {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid rgba(251, 249, 243, 0.25);
+  border: 1px solid rgba(255, 252, 242, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -986,7 +1074,7 @@ body.no-scroll {
 .page-header__eyebrow {
   font-size: 0.8rem;
   letter-spacing: 3px;
-  color: var(--olive);
+  color: var(--olive-dark);
   font-weight: 700;
   margin-bottom: 16px;
   display: block;
@@ -1065,8 +1153,8 @@ body.no-scroll {
   overflow: hidden;
   border-radius: 24px;
   background: var(--olive-dark);
-  border: 1px solid rgba(107, 113, 72, 0.14);
-  box-shadow: 0 16px 38px rgba(42, 42, 34, 0.1);
+  border: 1px solid rgba(100, 152, 127, 0.14);
+  box-shadow: 0 16px 38px rgba(16, 53, 44, 0.1);
   cursor: pointer;
   isolation: isolate;
   animation: pageFade 0.45s ease both;
@@ -1084,7 +1172,7 @@ body.no-scroll {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, transparent 48%, rgba(20, 20, 12, 0.82) 100%);
+  background: linear-gradient(180deg, transparent 48%, rgba(8, 28, 23, 0.82) 100%);
   pointer-events: none;
 }
 .gallery-card:hover img {
@@ -1124,7 +1212,7 @@ body.no-scroll {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(251, 249, 243, 0.92);
+  background: rgba(255, 252, 242, 0.92);
   color: var(--olive-dark);
   font-size: 0.7rem;
   font-weight: 800;
@@ -1189,7 +1277,7 @@ body.no-scroll {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(20, 20, 12, 0.94);
+  background: rgba(8, 28, 23, 0.94);
   align-items: center;
   justify-content: center;
   padding: 30px;
@@ -1213,8 +1301,8 @@ body.no-scroll {
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background: rgba(251, 249, 243, 0.14);
-  border: 1px solid rgba(251, 249, 243, 0.3);
+  background: rgba(255, 252, 242, 0.14);
+  border: 1px solid rgba(255, 252, 242, 0.3);
   color: var(--white-soft);
   display: flex;
   align-items: center;
@@ -1227,7 +1315,7 @@ body.no-scroll {
   height: 20px;
 }
 .lightbox__close:hover {
-  background: rgba(251, 249, 243, 0.28);
+  background: rgba(255, 252, 242, 0.28);
 }
 .lightbox__arrow {
   position: absolute;
@@ -1236,8 +1324,8 @@ body.no-scroll {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgba(251, 249, 243, 0.14);
-  border: 1px solid rgba(251, 249, 243, 0.3);
+  background: rgba(255, 252, 242, 0.14);
+  border: 1px solid rgba(255, 252, 242, 0.3);
   color: var(--white-soft);
   display: flex;
   align-items: center;
@@ -1250,7 +1338,7 @@ body.no-scroll {
   height: 20px;
 }
 .lightbox__arrow:hover {
-  background: rgba(251, 249, 243, 0.28);
+  background: rgba(255, 252, 242, 0.28);
 }
 .lightbox__arrow--next {
   right: 22px;
@@ -1315,7 +1403,7 @@ body.no-scroll {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(251, 249, 243, 0.94);
+  background: rgba(255, 252, 242, 0.94);
   color: var(--olive-dark);
   font-family: var(--font-display);
   font-weight: 700;
@@ -1397,7 +1485,6 @@ body.no-scroll {
   padding: 44px;
   border-radius: var(--radius);
   border: 1px solid var(--cream-2);
-  z-index: 1;
 }
 @media (max-width: 560px) {
   .booking-form {
@@ -1521,10 +1608,10 @@ textarea {
 .faq-item,
 .contact-card {
   background: var(--white-soft);
-  border: 1px solid rgba(107, 113, 72, 0.14);
+  border: 1px solid rgba(100, 152, 127, 0.14);
   border-radius: var(--radius);
   padding: 28px;
-  box-shadow: 0 14px 40px rgba(42, 42, 34, 0.06);
+  box-shadow: 0 14px 40px rgba(16, 53, 44, 0.06);
   transition:
     transform 0.35s ease,
     box-shadow 0.35s ease,
@@ -1535,8 +1622,8 @@ textarea {
 .package-card:hover,
 .contact-card:hover {
   transform: translateY(-7px);
-  box-shadow: 0 24px 60px rgba(42, 42, 34, 0.11);
-  border-color: rgba(176, 140, 79, 0.45);
+  box-shadow: 0 24px 60px rgba(16, 53, 44, 0.11);
+  border-color: rgba(203, 161, 53, 0.45);
 }
 .service-card__image {
   aspect-ratio: 4/3;
@@ -1727,9 +1814,9 @@ textarea {
   overflow: hidden;
 }
 .contact-map:before {
-  content: "Artix";
+  content: "KOE";
   position: absolute;
-  font-family: var(--font-display);
+  font-family: var(--font-thin);
   font-size: 12rem;
   opacity: 0.06;
   left: -20px;
@@ -1752,7 +1839,7 @@ textarea {
 }
 .social-row a {
   padding: 10px 14px;
-  border: 1px solid rgba(107, 113, 72, 0.2);
+  border: 1px solid rgba(100, 152, 127, 0.2);
   border-radius: 30px;
   background: var(--cream);
   font-size: 0.84rem;
@@ -1825,21 +1912,21 @@ body {
     width: auto;
     padding: 0;
     border-radius: 26px;
-    background: rgba(246, 241, 229, 0.72);
+    background: rgba(255, 246, 221, 0.72);
     backdrop-filter: blur(18px) saturate(180%);
     -webkit-backdrop-filter: blur(18px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.55);
     box-shadow:
-      0 14px 36px rgba(42, 42, 34, 0.16),
+      0 14px 36px rgba(16, 53, 44, 0.16),
       inset 0 1px 0 rgba(255, 255, 255, 0.55);
   }
   .nav.is-scrolled {
     padding: 0;
     border-radius: 26px;
-    background: rgba(246, 241, 229, 0.88);
+    background: rgba(255, 246, 221, 0.88);
     border: 1px solid rgba(255, 255, 255, 0.55);
     box-shadow:
-      0 14px 36px rgba(42, 42, 34, 0.18),
+      0 14px 36px rgba(16, 53, 44, 0.18),
       inset 0 1px 0 rgba(255, 255, 255, 0.55);
   }
   .nav__inner {
@@ -1927,7 +2014,7 @@ body {
     background: var(--olive-dark) !important;
     color: var(--gold) !important;
     border-radius: 20px;
-    box-shadow: 0 6px 16px rgba(42, 42, 34, 0.16);
+    box-shadow: 0 6px 16px rgba(16, 53, 44, 0.16);
   }
   .bottom-nav__item.is-active svg {
     color: var(--gold) !important;
@@ -1982,7 +2069,7 @@ body {
   .bottom-nav__item.is-active {
     background: var(--olive-dark) !important;
     color: var(--gold) !important;
-    box-shadow: 0 6px 16px rgba(42, 42, 34, 0.16);
+    box-shadow: 0 6px 16px rgba(16, 53, 44, 0.16);
   }
   .bottom-nav__item.is-active svg {
     color: var(--gold) !important;
@@ -2060,107 +2147,89 @@ body {
   }
 }
 
-.tempo {
-  max-width: 32ch;
-  opacity: 0.75;
-}
-
-.send-whats {
-  font-size: 10px;
-}
-
-/* ---------- زر "عرض كل الصور" بمنشور الأخبار ---------- */
-.news-item__viewall {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  border: 1px solid var(--olive-dark);
-  color: var(--olive-dark);
-  background: transparent;
-  transition: all 0.3s ease;
-}
-.news-item__viewall svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-.news-item__viewall:hover {
-  background: var(--olive-dark);
-  color: var(--white-soft);
-  transform: translateY(-2px);
-}
-
-/* ---------- عداد الصور بعارض الصورة الكبيرة ---------- */
-.lightbox__count {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(251, 249, 243, 0.14);
-  border: 1px solid rgba(251, 249, 243, 0.3);
-  color: var(--white-soft);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.82rem;
-  padding: 6px 16px;
-  border-radius: 20px;
-  direction: ltr;
-  unicode-bidi: isolate; /* حتى ما ينعكس "1/5" بسبب اتجاه RTL */
-  z-index: 2;
-}
-@media (max-width: 640px) {
-  .lightbox__count {
-    bottom: 14px;
-    font-size: 0.74rem;
+/* ============================================
+   سحب الشريط السفلي — مؤشر متحرك بإحساس iOS / Telegram
+   ============================================ */
+@media (max-width: 860px) {
+  .bottom-nav.has-pill {
+    touch-action: pan-y; /* السحب الأفقي لنا، والتمرير العمودي للمتصفح */
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
   }
-}
+  .bottom-nav.has-pill .bottom-nav__item {
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+  }
 
-/* ---------- عارض الصور: وضع التمرير العمودي (لـ "عرض كل الصور" بالأخبار) ---------- */
-.lightbox--scroll {
-  padding: 0;
-  align-items: stretch;
-  justify-content: stretch;
-}
-.lightbox--scroll .lightbox__scroll-viewport {
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 80px 16px 60px;
-}
-.lightbox--scroll .lightbox__scroll-list {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
-}
-.lightbox--scroll .lightbox__scroll-item {
-  width: 100%;
-  border-radius: 18px;
-  overflow: hidden;
-  background: rgba(251, 249, 243, 0.05);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-}
-.lightbox--scroll .lightbox__scroll-item img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-@media (max-width: 640px) {
-  .lightbox--scroll .lightbox__scroll-viewport {
-    padding: 70px 10px 40px;
+  /* الكبسولة الزيتية المتحركة — تقع فوق العناصر وتحمل نسخاً ذهبية منها،
+     فيتحول لون الأيقونة والنص إلى ذهبي بالضبط في الجزء الذي تغطيه الكبسولة */
+  .bottom-nav__pill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--olive-dark);
+    box-shadow: 0 6px 16px rgba(16, 53, 44, 0.16);
+    pointer-events: none;
+    will-change: transform;
+    transition: box-shadow 0.25s ease;
   }
-  .lightbox--scroll .lightbox__scroll-list {
-    gap: 16px;
+  .bottom-nav.is-lifted .bottom-nav__pill {
+    box-shadow:
+      0 12px 28px rgba(16, 53, 44, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 0 0 1px rgba(203, 161, 53, 0.32);
   }
-  .lightbox--scroll .lightbox__scroll-item {
-    border-radius: 14px;
+  .bottom-nav__ghosts {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    transform-origin: 0 0;
+    pointer-events: none;
+  }
+  .bottom-nav .bottom-nav__pill .bottom-nav__ghost {
+    position: absolute !important;
+    margin: 0;
+    pointer-events: none;
+    transition: none !important;
+    transform: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    color: var(--gold) !important;
+  }
+  .bottom-nav .bottom-nav__pill .bottom-nav__ghost svg,
+  .bottom-nav .bottom-nav__pill .bottom-nav__ghost span {
+    color: var(--gold) !important;
+    opacity: 1 !important;
+    transition: none !important;
+    transform: none;
+  }
+
+  /* العنصر النشط لم يعد يرسم خلفيته بنفسه — الكبسولة هي الخلفية */
+  .bottom-nav.has-pill .bottom-nav__item.is-active {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  .bottom-nav.has-pill .bottom-nav__item:active {
+    transform: none;
+  }
+  .bottom-nav.has-pill .bottom-nav__item.is-active,
+  .bottom-nav.has-pill .bottom-nav__item.is-active svg,
+  .bottom-nav.has-pill .bottom-nav__item.is-active span {
+    color: var(--olive-dark) !important;
+  }
+  .bottom-nav.has-pill .bottom-nav__item.is-active svg {
+    transform: none;
+  }
+  .bottom-nav.has-pill .bottom-nav__item.is-active span {
+    opacity: 0.9;
   }
 }
