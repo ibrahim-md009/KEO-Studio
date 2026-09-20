@@ -16,7 +16,7 @@
   --font-thin: "Naveid Arabic Thin", "Segoe UI", Tahoma, Arial, sans-serif;
   --font-numbers: "Changa", "Segoe UI", Tahoma, Arial, sans-serif;
   --container: 1180px;
-  --radius: 2px;
+  --radius: 12px;
 }
 
 /* ============================================
@@ -52,11 +52,11 @@
    فبنسحب الأرقام بس من خط Changa (بديل قريب الشكل) لحد ما تجيب
    نسخة Naveid المرخّصة، وترجع تشيل الجزء ده وتمسحه
    ============================================ */
-/* @font-face {
+@font-face {
   font-family: "Naveid Arabic Thin";
   src: url("https://cdn.jsdelivr.net/fontsource/fonts/changa:vf@5.3.0/latin-wght-normal.woff2")
     format("woff2-variations");
-  font-weight: 200 800;
+  font-weight: 100;
   font-style: normal;
   font-display: swap;
   unicode-range: U+0030-0039;
@@ -65,7 +65,7 @@
   font-family: "Naveid Arabic";
   src: url("https://cdn.jsdelivr.net/fontsource/fonts/changa:vf@5.3.0/latin-wght-normal.woff2")
     format("woff2-variations");
-  font-weight: 200 800;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
   unicode-range: U+0030-0039;
@@ -74,11 +74,11 @@
   font-family: "Naveid Arabic ExtraBold";
   src: url("https://cdn.jsdelivr.net/fontsource/fonts/changa:vf@5.3.0/latin-wght-normal.woff2")
     format("woff2-variations");
-  font-weight: 200 800;
+  font-weight: 800;
   font-style: normal;
   font-display: swap;
   unicode-range: U+0030-0039;
-} */
+}
 
 * {
   box-sizing: border-box;
@@ -635,6 +635,7 @@ body.no-scroll {
 .btn--whatsapp {
   background: var(--olive);
   color: var(--white-soft);
+  padding: 5px;
 }
 .btn--whatsapp:hover {
   background: var(--olive-dark);
@@ -1378,16 +1379,6 @@ body.no-scroll {
   align-items: start;
 }
 
-/* .news-item__viewall {
-  background: none;
-  border: none;
-  transition: 0.3s;
-  display: flex;
-  flex-direction: column;
-}
-.news-item__viewall:hover {
-  transform: scale(1.03);
-} */
 .news-item__viewall {
   display: inline-flex;
   align-items: center;
@@ -1411,13 +1402,6 @@ body.no-scroll {
   transition: 0.3s ease;
 }
 
-.news-item__viewall svg {
-  width: 19px;
-  height: 19px;
-  color: var(--gold);
-  transition: 0.3s ease;
-}
-
 .news-item__viewall:hover {
   background: var(--olive-dark);
   color: var(--white-soft);
@@ -1426,10 +1410,6 @@ body.no-scroll {
   box-shadow: 0 5px 16px rgba(16, 53, 44, 0.16);
 }
 
-.news-item__viewall:hover svg {
-  color: var(--gold-soft);
-  transform: scale(1.08);
-}
 @media (max-width: 640px) {
   .news-item {
     grid-template-columns: 1fr;
@@ -2287,3 +2267,118 @@ body {
     opacity: 0.9;
   }
 }
+
+/* ============================================================
+   إصلاحات (1) البلور على الموبايل  (2) عارض الصور بالتمرير  (3) صفحة الحجز
+   ============================================================ */
+
+/* ---------- 1) البلور على الموبايل الحقيقي ----------
+   نقلنا backdrop-filter من العنصر نفسه إلى ::before، وشلنا transform من الشريط السفلي.
+   متصفحات الموبايل (Safari iOS / Chrome Android) بتتجاهل البلور لما يكون على عنصر
+   عنده transform أو أبناء بيتحركوا (زي الكبسولة will-change) — الطبقة المنفصلة تحل المشكلة. */
+@media (max-width: 860px) {
+  .nav,
+  .nav.is-scrolled,
+  .bottom-nav {
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    isolation: isolate;
+  }
+  .nav::before,
+  .bottom-nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: rgba(255, 246, 221, 0.55);
+    -webkit-backdrop-filter: blur(20px) saturate(170%);
+    backdrop-filter: blur(20px) saturate(170%);
+    transition: background 0.3s ease;
+  }
+  .nav.is-scrolled::before {
+    background: rgba(255, 246, 221, 0.7);
+  }
+
+  /* توسيط الشريط السفلي بدون transform */
+  .bottom-nav {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    transform: none;
+  }
+}
+
+/* ---------- 2) عارض الصور بالتمرير العمودي (الأخبار + الأعمال) ---------- */
+.lightbox--scroll,
+.lightbox--scroll.is-active {
+  padding: 0;
+  align-items: stretch;
+  justify-content: stretch;
+}
+.lightbox__scroll-viewport {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+.lightbox__scroll-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(900px, 100%);
+  margin: 0 auto;
+  padding: 84px 16px 60px;
+  box-sizing: border-box;
+}
+.lightbox__scroll-item {
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 252, 242, 0.06);
+  min-height: 160px;
+}
+.lightbox__scroll-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.lightbox__caption {
+  margin: 0;
+  padding: 10px 14px 12px;
+  color: var(--white-soft);
+  font-size: 0.85rem;
+  text-align: center;
+  background: rgba(8, 28, 23, 0.6);
+}
+.lightbox--scroll .lightbox__close {
+  position: fixed;
+  z-index: 5;
+}
+@media (max-width: 640px) {
+  .lightbox__scroll-list {
+    padding: 70px 10px 40px;
+    gap: 12px;
+  }
+}
+
+/* ---------- 3) صفحة الحجز: الكارتين منفصلين على الموبايل ----------
+   الـ sticky مفيد بس في الديسكتوب (عمودين). على الموبايل العمود واحد،
+   فكان الكارت بيلزق فوق ويتغطى بالفورم. */
+@media (max-width: 900px) {
+  .booking-info {
+    position: static;
+    top: auto;
+  }
+  .send-whats {
+    font-size: 12px;
+  }
+}
+
+/* .num-inp {
+  font-family: var(--font-numbers);
+} */

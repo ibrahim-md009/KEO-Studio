@@ -1,28 +1,15 @@
 import { useState, useEffect } from "react";
 import FadeAnimation from "../components/ui/FadeAnimation";
 import { Link } from "react-router-dom";
-import { getNews } from "../services/firestore";
+import useCached from "../hooks/useChached";
+import { QUERIES } from "../services/queries";
 import { ImageUpscaleIcon } from "lucide-react";
 const News = () => {
-  const [newsData, setNewsData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data, loading } = useCached(QUERIES.news.key, QUERIES.news.fetcher);
+  const newsData = data ?? [];
 
   // عارض الصور (وضع التمرير العمودي)
   const [lightbox, setLightbox] = useState({ open: false, images: [] });
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const news = await getNews();
-        setNewsData(news);
-      } catch (err) {
-        console.error("فشل تحميل الأخبار:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getData();
-  }, []);
 
   const getMainImage = (item) => item.mainImage || item.imageUrl || null;
   const getSubImages = (item) => item.subImages || item.images || [];
@@ -30,21 +17,22 @@ const News = () => {
   const openGallery = (item) => {
     const images = [getMainImage(item), ...getSubImages(item)].filter(Boolean);
     setLightbox({ open: true, images });
-    document.body.classList.add("no-scroll");
   };
 
-  const closeLightbox = () => {
-    setLightbox({ open: false, images: [] });
-    document.body.classList.remove("no-scroll");
-  };
+  const closeLightbox = () => setLightbox({ open: false, images: [] });
 
+  // قفل سكرول الصفحة + إغلاق بـ Escape (والتنظيف عند مغادرة الصفحة)
   useEffect(() => {
     if (!lightbox.open) return;
+    document.body.classList.add("no-scroll");
     const onKey = (e) => {
       if (e.key === "Escape") closeLightbox();
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      document.body.classList.remove("no-scroll");
+      window.removeEventListener("keydown", onKey);
+    };
   }, [lightbox.open]);
 
   return (
@@ -80,17 +68,6 @@ const News = () => {
 
                       {subImages.length > 0 && (
                         <button type="button" className="news-item__viewall" onClick={() => openGallery(item)}>
-                          {/* <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <rect x="3" y="3" width="13" height="13" rx="2" />
-                            <path d="M8 21h10a2 2 0 0 0 2-2V9" />
-                          </svg> */}
                           {<ImageUpscaleIcon />}
                           عرض كل الصور
                         </button>

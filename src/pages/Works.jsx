@@ -1,53 +1,49 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import FadeAnimation from "../components/ui/FadeAnimation";
-import { getWorks, getCategories } from "../services/firestore";
+import useCached from "../hooks/useChached";
+import { QUERIES } from "../services/queries";
 import { Link } from "react-router-dom";
 
 const Works = () => {
-  const [galleryItems, setGalleryItems] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [activeTab, setActiveTab] = useState(null);
+  const { data, loading } = useCached(QUERIES.works.key, QUERIES.works.fetcher);
+  const [galleryItems, categories] = data ?? [[], []];
 
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const [works, categoriesData] = await Promise.all([getWorks(), getCategories()]);
-
-        setGalleryItems(works);
-        setCategories(categoriesData);
-        if (categoriesData.length > 0) {
-          setActiveTab((prev) => prev ?? categoriesData[0].id);
-        }
-      } catch (err) {
-        console.error("فشل تحميل الأعمال أو التصنيفات:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getData();
-  }, []);
+  // التصنيف النشط: اللي اختاره المستخدم، أو أول تصنيف افتراضياً (بدون effect)
+  const [selectedTab, setSelectedTab] = useState(null);
+  const activeTab = selectedTab ?? categories[0]?.id ?? null;
 
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const filteredItems = galleryItems.filter((i) => i.category === activeTab);
+  const itemRefs = useRef([]);
 
   const openLightbox = (index) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
+  const isOpen = lightboxIndex !== null;
 
-  const goNext = () => {
-    setLightboxIndex((prev) => (prev + 1) % filteredItems.length);
-  };
-  const goPrev = () => {
-    setLightboxIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length);
-  };
+  // قفل سكرول الصفحة + Escape، ثم النزول مباشرة للصورة اللي ضغط عليها المستخدم
+  useEffect(() => {
+    if (!isOpen) return;
+    document.body.classList.add("no-scroll");
+    const onKey = (e) => {
+      if (e.key === "Escape") closeLightbox();
+    };
+    window.addEventListener("keydown", onKey);
+    itemRefs.current[lightboxIndex]?.scrollIntoView({ block: "start", behavior: "instant" });
+    return () => {
+      document.body.classList.remove("no-scroll");
+      window.removeEventListener("keydown", onKey);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   return (
     <section>
       <div className="page-header">
         <span className="page-header__eyebrow">معرض الأعمال</span>
         <h1 className="page-header__title">لحظات وثّقناها بعناية</h1>
-        <p className="page-header__text">تصفّحي الصور بالأسفل وتقلّبي بينها بالسهمين، أو اختاري تصنيفاً آخر بأي وقت.</p>
+        <p className="page-header__text">
+          اضغطي على أي صورة لتصفّحي كل الصور بالتمرير للأسفل، أو اختاري تصنيفاً آخر بأي وقت.
+        </p>
       </div>
 
       <section className="section section--tight">
@@ -61,7 +57,7 @@ const Works = () => {
                   <button
                     className={`filter-btn ${activeTab === item.id ? "is-active" : ""}`}
                     key={item.id}
-                    onClick={() => setActiveTab(item.id)}
+                    onClick={() => setSelectedTab(item.id)}
                   >
                     {item.label}
                   </button>
@@ -74,7 +70,7 @@ const Works = () => {
                 {filteredItems.map((item, index) => (
                   <article
                     className="gallery-card"
-                    key={index}
+                    key={item.id ?? index}
                     tabIndex={0}
                     role="button"
                     aria-label={`فتح ${item.title}`}
@@ -96,49 +92,32 @@ const Works = () => {
         </div>
       </section>
 
-      <div
-        id="lightbox"
-        className={`lightbox ${lightboxIndex !== null ? "is-active" : ""}`}
-        aria-hidden={lightboxIndex === null}
-        onClick={(e) => {
-          if (e.target.currentTarget === e.target) closeLightbox();
-        }}
-      >
-        <button className="lightbox__close" id="lightbox-close" onClick={closeLightbox} aria-label="إغلاق">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
-        </button>
-        <button
-          className="lightbox__arrow lightbox__arrow--next"
-          id="lightbox-next"
-          onClick={goNext}
-          aria-label="الصورة التالية"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </button>
+      {isOpen && (
+        <div className="lightbox lightbox--scroll is-active" aria-hidden="false">
+          <button className="lightbox__close" id="lightbox-close" onClick={closeLightbox} aria-label="إغلاق">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
 
-        <div
-          className="lightbox__image"
-          id="lightbox-image"
-          style={{
-            backgroundImage: lightboxIndex !== null ? `url('${filteredItems[lightboxIndex].img}')` : "none",
-          }}
-        />
-
-        <button
-          className="lightbox__arrow lightbox__arrow--prev"
-          id="lightbox-prev"
-          onClick={goPrev}
-          aria-label="الصورة السابقة"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </button>
-      </div>
+          <div className="lightbox__scroll-viewport">
+            <div className="lightbox__scroll-list">
+              {filteredItems.map((item, i) => (
+                <figure
+                  className="lightbox__scroll-item"
+                  key={item.id ?? i}
+                  ref={(el) => {
+                    itemRefs.current[i] = el;
+                  }}
+                >
+                  <img src={item.img} alt={item.title} loading={i <= lightboxIndex ? "eager" : "lazy"} />
+                  {item.title && <figcaption className="lightbox__caption">{item.title}</figcaption>}
+                </figure>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <section className="cta-final">
         <div className="container">
