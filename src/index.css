@@ -1402,7 +1402,7 @@ body.no-scroll {
 
 .news-item__viewall:hover {
   background: var(--olive-dark);
-  color: var(--white-soft);
+  color: var(--gold);
   border-color: var(--olive-dark);
   transform: translateY(-2px);
   box-shadow: 0 5px 16px rgba(16, 53, 44, 0.16);
