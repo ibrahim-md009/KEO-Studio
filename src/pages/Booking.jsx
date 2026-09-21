@@ -2,7 +2,7 @@ import { useState } from "react";
 import FadeAnimation from "../components/ui/FadeAnimation";
 import { Calendar, Clock, Heart } from "lucide-react";
 
-const WHATSAPP_NUMBER = "972567574848";
+const WHATSAPP_NUMBER = "970592591177";
 
 const OCCASIONS = [
   { value: "engagement", label: "خطوبة" },
@@ -121,7 +121,7 @@ const Booking = () => {
                 <span>كل التفاصيل تصلنا مباشرة، ما في داعي تتصلوا فينا يدوياً</span>
               </li>
             </ul>
-            <a href="https://wa.me/972567574848" target="_blank" rel="noopener" className="btn btn--whatsapp btn--full">
+            <a href="https://wa.me/970592591177" target="_blank" rel="noopener" className="btn btn--whatsapp btn--full">
               <span className="send-whats">تواصل مباشر عبر واتساب</span>
             </a>
           </FadeAnimation>

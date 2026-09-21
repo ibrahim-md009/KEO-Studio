@@ -10,7 +10,7 @@ const navLinks = [
 const socialLinks = [
   {
     name: "Instagram",
-    url: "#",
+    url: "https://www.instagram.com/keostudio1?stkn=bWgxd3N4aXoweTRj",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <rect x="3" y="3" width="18" height="18" rx="5" />
@@ -66,7 +66,7 @@ const Footer = () => {
             <h4>تواصل معنا</h4>
             <div className="footer__contact-row">
               <a
-                href="https://wa.me/972567574848"
+                href="https://wa.me/970592591177"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="واتساب"

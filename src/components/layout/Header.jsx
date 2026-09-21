@@ -44,7 +44,7 @@ const Header = () => {
 
         <a
           className="nav__whatsapp"
-          href="https://wa.me/972567574848"
+          href="https://wa.me/970592591177"
           target="_blank"
           rel="noopener"
           aria-label="تواصل عبر واتساب"
