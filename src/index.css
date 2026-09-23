@@ -216,7 +216,7 @@ textarea:focus-visible {
   position: relative;
   padding-bottom: 4px;
 }
-.nav__links a::after {
+.nav__links a:not(.nav__cta)::after {
   content: "";
   position: absolute;
   right: 0;

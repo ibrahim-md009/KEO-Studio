@@ -6,7 +6,7 @@ const navLinks = [
   { name: "أعمالنا", url: "/works" },
   { name: "الأخبار", url: "/news" },
   { name: "الأسئلة", url: "/faq" },
-  { name: "الحجز", url: "/booking" },
+  // { name: "الحجز", url: "/booking" },
 ];
 
 const Header = () => {
