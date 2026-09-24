@@ -30,3 +30,13 @@ export const getNews = async () => {
     ...doc.data(),
   }));
 };
+
+export const getStatistics = async () => {
+  const q = query(collection(db, "statistics"), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+};
