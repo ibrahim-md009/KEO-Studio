@@ -1,9 +1,10 @@
 import FadeAnimation from "../../components/ui/FadeAnimation";
+import Count from "../../components/Count";
 
 const STATS_DATA = [
-  { id: "sessions", value: "+500", label: "جلسة موثّقة" },
-  { id: "experience", value: "+8", label: "سنوات خبرة" },
-  { id: "satisfaction", value: "98٪", label: "رضا العملاء" },
+  { id: "sessions", value: 500, prefix: "+", suffix: "", label: "جلسة موثّقة" },
+  { id: "experience", value: 8, prefix: "+", suffix: "", label: "سنوات خبرة" },
+  { id: "satisfaction", value: 98, prefix: "", suffix: "٪", label: "رضا العملاء" },
 ];
 
 const About = () => {
@@ -26,7 +27,7 @@ const About = () => {
             {STATS_DATA.map((stat) => {
               return (
                 <div key={stat.id} className="about__stat">
-                  <b>{stat.value}</b>
+                  <Count target={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
                   <span>{stat.label}</span>
                 </div>
               );
