@@ -15,6 +15,14 @@ const News = () => {
   const getMainImage = (item) => item.mainImage || item.imageUrl || null;
   const getSubImages = (item) => item.subImages || item.images || [];
 
+  // createdAt بقى ISO string ثابت (اتحول في firestore.js) بدل Firestore Timestamp
+  const formatNewsDate = (createdAt) => {
+    if (!createdAt) return null;
+    const date = new Date(createdAt);
+    if (isNaN(date.getTime())) return null;
+    return date.toLocaleDateString("ar-EG", { year: "numeric", month: "long" });
+  };
+
   const openGallery = (item) => {
     const images = [getMainImage(item), ...getSubImages(item)].filter(Boolean);
     setLightbox({ open: true, images });
@@ -57,10 +65,8 @@ const News = () => {
                   <FadeAnimation key={item.id} className="news-item">
                     <div className="news-item__media">
                       {mainImage && <img src={mainImage} alt={item.mainDesc} loading="lazy" />}
-                      {item.createdAt && (
-                        <span className="news-item__date">
-                          {item.createdAt.toDate().toLocaleDateString("ar-EG", { year: "numeric", month: "long" })}
-                        </span>
+                      {formatNewsDate(item.createdAt) && (
+                        <span className="news-item__date">{formatNewsDate(item.createdAt)}</span>
                       )}
                     </div>
                     <div>
