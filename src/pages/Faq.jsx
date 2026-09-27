@@ -1,5 +1,7 @@
 import { useState } from "react";
 import FadeAnimation from "../components/ui/FadeAnimation";
+import { Send } from "lucide-react";
+import { WHATSAPP_LINK } from "../config/constans";
 
 const faqData = [
   {
@@ -30,6 +32,20 @@ const Faq = () => {
     setIsActive((prev) => (prev === index ? null : index));
   };
 
+  const [message, setMessage] = useState("");
+  const makeMessage = (msg) => {
+    setMessage(msg);
+  };
+
+  const submitQuestion = () => {
+    const trimmed = message.trim();
+    if (!trimmed) return;
+
+    const msgTxt = `مرحبا KEO🎥 سؤالي هو ${trimmed}`;
+    window.open(`${WHATSAPP_LINK}?text=${encodeURIComponent(msgTxt)}`, "_blank");
+    setMessage("");
+  };
+
   return (
     <section id="page-faq">
       <div className="page-header">
@@ -52,6 +68,21 @@ const Faq = () => {
                 </div>
               </FadeAnimation>
             ))}
+
+            <div className="faq-ask">
+              <label>لديك أسئلة أخرى؟</label>
+              <div className="faq-inp">
+                <input
+                  type="text"
+                  value={message}
+                  onChange={(e) => makeMessage(e.target.value)}
+                  placeholder="أرسل سؤالك على واتساب"
+                />
+                <button type="button" onClick={() => submitQuestion()} className="send-faq">
+                  <Send />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>

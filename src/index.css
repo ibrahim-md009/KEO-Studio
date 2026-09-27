@@ -638,6 +638,7 @@ body.no-scroll {
 .btn--whatsapp:hover {
   background: var(--olive-dark);
   transform: translateY(-2px);
+  color: var(--gold);
 }
 .btn--full {
   width: 100%;
@@ -1831,6 +1832,44 @@ textarea {
 .faq-item.is-open .faq-q span:last-child {
   transform: rotate(45deg);
 }
+
+.faq-ask {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.faq-ask label {
+  display: block;
+  margin: 0;
+  font-size: 14px;
+}
+.faq-inp {
+  position: relative;
+}
+.faq-inp input {
+  width: 100%;
+  padding-left: 52px;
+}
+.send-faq {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  background-color: var(--gold);
+  border-radius: 12px;
+  padding: 5px 2px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+.send-faq:hover {
+  border: 1px solid var(--olive-dark);
+}
+
 .contact-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -2391,4 +2430,11 @@ body {
 
 .send-whats {
   font-size: 12px;
+}
+
+.no-copy {
+  user-select: none;
+  -webkit-user-select: none; /* Safari/Chrome */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Edge/IE */
 }

@@ -34,7 +34,7 @@ const Why = () => {
         <div className="grid-3">
           {whyItems.map((item, i) => {
             return (
-              <FadeAnimation key={i} className="icard ">
+              <FadeAnimation key={i} className="icard no-copy ">
                 <div className="icard__icon">
                   <item.Icon />
                 </div>

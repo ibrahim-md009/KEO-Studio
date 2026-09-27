@@ -10,7 +10,7 @@ import MobNav from "./components/layout/MobNav";
 const Works = lazy(() => import("./pages/Works"));
 const Faq = lazy(() => import("./pages/Faq"));
 const News = lazy(() => import("./pages/News"));
-const Booking = lazy(() => import("./pages/Booking"));
+const Booking = lazy(() => import("./pages/booking"));
 
 const App = () => {
   // بعد ما الرئيسية تخلص وفي وقت فراغ المتصفح: جهّز البيانات وحمّل أكواد الصفحات
@@ -20,7 +20,7 @@ const App = () => {
       import("./services/queries").then((m) => m.prefetchAll());
       import("./pages/Works");
       import("./pages/News");
-      import("./pages/Booking");
+      import("./pages/booking");
       import("./pages/Faq");
     };
     const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1500));

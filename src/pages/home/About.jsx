@@ -6,7 +6,7 @@ import { QUERIES } from "../../services/queries";
 
 const { key, fetcher } = QUERIES.statistics;
 
-// تظهر لو الداشبورد فاضية أو حصل خطأ في الجلب
+// تظهر لو الكاش فاضي (أول زيارة) أو حصل خطأ في الجلب
 const FALLBACK_STATS = [
   { id: "sessions", value: 500, prefix: "+", suffix: "", label: "جلسة موثّقة" },
   { id: "experience", value: 8, prefix: "+", suffix: "", label: "سنوات خبرة" },
@@ -25,10 +25,11 @@ const toStat = (s) => ({
 const normalize = (data) => (data?.length ? data.map(toStat) : FALLBACK_STATS);
 
 const About = () => {
-  // لو الـ prefetch خلّص، الأرقام جاهزة من أول رسم
+  // لو فيه نسخة متخزنة (من زيارة سابقة) بتظهر فورًا، ولو مفيش
+  // نعرض أرقام افتراضية بدل ما نسيب القسم فاضي لحد ما السيرفر يرد
   const [stats, setStats] = useState(() => {
     const c = peek(key);
-    return c ? normalize(c) : null;
+    return c ? normalize(c) : FALLBACK_STATS;
   });
 
   useEffect(() => {
@@ -57,16 +58,14 @@ const About = () => {
             فريقنا يستمع لقصتكم أولاً، ثم يترجمها بصرياً بأسلوب هادئ بعيد عن المبالغة، ليبقى التركيز على اللحظة نفسها.
           </p>
 
-          {stats && (
-            <div className="about__stats">
-              {stats.map((stat) => (
-                <div key={stat.id} className="about__stat">
-                  <Count target={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
-                  <span>{stat.label}</span>
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="about__stats">
+            {stats.map((stat) => (
+              <div key={stat.id} className="about__stat">
+                <Count target={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
         </FadeAnimation>
       </div>
     </section>

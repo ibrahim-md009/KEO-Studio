@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { WHATSAPP_LINK } from "../../config/constans";
 
 const navLinks = [
   { path: "/", label: "الرئيسية" },
@@ -21,20 +22,10 @@ const socialLinks = [
   },
   {
     name: "Facebook",
-    url: "#",
+    url: "https://www.facebook.com/share/14z55uQhoXo/",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M15 8.5h-2c-.8 0-1.5.7-1.5 1.5v2h3.3l-.5 3H11.5v7h-3v-7H6.5v-3h2V9.8c0-2.4 1.6-4.3 4-4.3H15v3z" />
-      </svg>
-    ),
-  },
-  {
-    name: "TikTok",
-    url: "#",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M14 4v10.2a3.3 3.3 0 1 1-2.6-3.23" />
-        <path d="M14 4c.4 2.4 2.1 4 4.6 4.2" />
       </svg>
     ),
   },
@@ -66,7 +57,7 @@ const Footer = () => {
             <h4>تواصل معنا</h4>
             <div className="footer__contact-row">
               <a
-                href="https://wa.me/970592591177"
+                href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="واتساب"
