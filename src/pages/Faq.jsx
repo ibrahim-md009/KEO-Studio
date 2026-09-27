@@ -78,7 +78,7 @@ const Faq = () => {
                   onChange={(e) => makeMessage(e.target.value)}
                   placeholder="أرسل سؤالك على واتساب"
                 />
-                <button type="button" onClick={() => submitQuestion()} className="send-faq">
+                <button type="button" onClick={() => submitQuestion()} className="send-button-faq">
                   <Send />
                 </button>
               </div>

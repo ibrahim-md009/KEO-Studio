@@ -1851,7 +1851,7 @@ textarea {
   width: 100%;
   padding-left: 52px;
 }
-.send-faq {
+.send-button-faq {
   position: absolute;
   top: 50%;
   left: 10px;
@@ -1866,7 +1866,7 @@ textarea {
   align-items: center;
   border: none;
 }
-.send-faq:hover {
+.send-button-faq:hover {
   border: 1px solid var(--olive-dark);
 }
 
