@@ -4,6 +4,10 @@ import useCached from "../hooks/useChached";
 import { QUERIES } from "../services/queries";
 import { ImageUpscaleIcon } from "lucide-react";
 import Final from "../components/layout/Final";
+import { optimizeImg } from "../utils/optimizeImg";
+
+// formatter واحد بس بدل ما يتنشأ مع كل خبر (toLocaleDateString بينشئ واحد جديد في كل نداء)
+const dateFmt = new Intl.DateTimeFormat("ar-EG", { year: "numeric", month: "long" });
 
 const News = () => {
   const { data, loading } = useCached(QUERIES.news.key, QUERIES.news.fetcher);
@@ -20,7 +24,7 @@ const News = () => {
     if (!createdAt) return null;
     const date = new Date(createdAt);
     if (isNaN(date.getTime())) return null;
-    return date.toLocaleDateString("ar-EG", { year: "numeric", month: "long" });
+    return dateFmt.format(date);
   };
 
   const openGallery = (item) => {
@@ -61,13 +65,14 @@ const News = () => {
               newsData.map((item) => {
                 const mainImage = getMainImage(item);
                 const subImages = getSubImages(item);
+                const date = formatNewsDate(item.createdAt);
                 return (
                   <FadeAnimation key={item.id} className="news-item">
                     <div className="news-item__media">
-                      {mainImage && <img src={mainImage} alt={item.mainDesc} loading="lazy" />}
-                      {formatNewsDate(item.createdAt) && (
-                        <span className="news-item__date">{formatNewsDate(item.createdAt)}</span>
+                      {mainImage && (
+                        <img src={optimizeImg(mainImage, 800)} alt={item.mainDesc} loading="lazy" decoding="async" />
                       )}
+                      {date && <span className="news-item__date">{date}</span>}
                     </div>
                     <div>
                       <h3 className="news-item__title">{item.mainDesc || "(بدون عنوان)"}</h3>
@@ -103,7 +108,7 @@ const News = () => {
             <div className="lightbox__scroll-list">
               {lightbox.images.map((url, i) => (
                 <div className="lightbox__scroll-item" key={i}>
-                  <img src={url} alt="" loading="lazy" />
+                  <img src={optimizeImg(url, 1600)} alt="" loading="lazy" decoding="async" />
                 </div>
               ))}
             </div>

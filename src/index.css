@@ -2429,3 +2429,9 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
+.news-item__media img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
