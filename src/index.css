@@ -1856,7 +1856,7 @@ textarea {
   top: 50%;
   left: 10px;
   transform: translateY(-50%);
-  background-color: var(--gold);
+  background-color: var(--olive-dark);
   border-radius: var(--radius);
   padding: 5px 2px;
   width: 40px;
@@ -1868,7 +1868,7 @@ textarea {
 }
 
 .send-icon {
-  color: var(--cream);
+  color: var(--cream-2);
 }
 
 .contact-grid {
