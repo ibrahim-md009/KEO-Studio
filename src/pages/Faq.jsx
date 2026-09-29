@@ -79,7 +79,7 @@ const Faq = () => {
                   placeholder="أرسل سؤالك على واتساب"
                 />
                 <button type="button" onClick={() => submitQuestion()} className="send-button-faq">
-                  <Send />
+                  <Send className="send-icon" />
                 </button>
               </div>
             </div>

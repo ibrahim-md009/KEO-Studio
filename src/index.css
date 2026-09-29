@@ -1857,7 +1857,7 @@ textarea {
   left: 10px;
   transform: translateY(-50%);
   background-color: var(--gold);
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 5px 2px;
   width: 40px;
   height: 40px;
@@ -1866,8 +1866,9 @@ textarea {
   align-items: center;
   border: none;
 }
-.send-button-faq:hover {
-  border: 1px solid var(--olive-dark);
+
+.send-icon {
+  color: var(--cream);
 }
 
 .contact-grid {

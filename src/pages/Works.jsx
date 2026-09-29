@@ -42,7 +42,7 @@ const Works = () => {
         <span className="page-header__eyebrow">معرض الأعمال</span>
         <h1 className="page-header__title">لحظات وثّقناها بعناية</h1>
         <p className="page-header__text">
-          اضغطي على أي صورة لتصفّحي كل الصور بالتمرير للأسفل، أو اختاري تصنيفاً آخر بأي وقت.
+          اضغط على أي صورة لتصفّح كل الصور بالتمرير للأسفل، أو اختر تصنيفاً آخر بأي وقت.
         </p>
       </div>
 
@@ -64,7 +64,7 @@ const Works = () => {
                 ))}
               </FadeAnimation>
               <p className="filter-hint" id="filter-hint">
-                اختاري تصنيفاً من فوق لعرض صوره
+                اختر تصنيفاً من فوق لعرض صوره
               </p>
               <FadeAnimation key={activeTab} once={false} className="gallery-grid" id="gallery-grid" aria-live="polite">
                 {filteredItems.map((item, index) => (

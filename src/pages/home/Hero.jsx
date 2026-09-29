@@ -21,11 +21,11 @@ const Hero = () => {
 
       <div className="hero__cta-row">
         <Link to="/booking" className="btn btn--primary">
-          احجزي موعدك الآن
+          احجز موعدك الآن
         </Link>
 
         <Link to="/works" className="btn btn--ghost">
-          شاهدي أعمالنا
+          شاهد أعمالنا
         </Link>
       </div>
     </div>

@@ -5,10 +5,10 @@ const Booking = () => {
   return (
     <section id="page-booking">
       <div className="page-header">
-        <span className="page-header__eyebrow">احجزي موعدك</span>
+        <span className="page-header__eyebrow">احجز موعدك</span>
         <h1 className="page-header__title">لنبدأ بتوثيق لحظتكم</h1>
         <p className="page-header__text">
-          عبّئي النموذج التالي، وسنستقبل التفاصيل مباشرة عبر واتساب لتأكيد موعدكم في أقرب وقت.
+          املأ النموذج التالي، وسنستقبل التفاصيل مباشرة عبر واتساب لتأكيد موعدكم في أقرب وقت.
         </p>
       </div>
 

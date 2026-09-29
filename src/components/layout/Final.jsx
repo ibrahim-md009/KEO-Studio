@@ -15,7 +15,7 @@ const Final = ({ title, text }) => {
 
         <FadeAnimation className="cta-final__row ">
           <Link to="/booking" className="btn btn--primary">
-            احجزي موعدك الآن
+            احجز موعدك الآن
           </Link>
         </FadeAnimation>
       </div>

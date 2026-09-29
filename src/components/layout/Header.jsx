@@ -39,7 +39,7 @@ const Header = () => {
           })}
 
           <Link to="/booking" className="nav__cta">
-            احجزي موعدك
+            احجز موعدك
           </Link>
         </nav>
 
