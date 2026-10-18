@@ -23,9 +23,7 @@ const Why = () => {
     <FadeAnimation as="section" className="section">
       <div className="container">
         <div className="section__head ">
-          <span className="section__eyebrow">
-            <span>ليه</span> KEO
-          </span>
+          <span className="section__eyebrow">ليه كيو</span>
 
           <h2 className="section__title">تجربة تصوير هادئة، بنتيجة تبقى</h2>
           <p className="section__text">نتعامل مع كل جلسة كقصة قائمة بذاتها، بإضاءة وتفاصيل تُحاكي طابعكم الخاص.</p>

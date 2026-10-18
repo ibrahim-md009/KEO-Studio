@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import FadeAnimation from "../../components/ui/FadeAnimation";
 import { WHATSAPP_LINK } from "../../config/constans";
 
@@ -11,6 +11,62 @@ const OCCASIONS = [
   { value: "portrait", label: "جلسة شخصية / بورتريه" },
   { value: "other", label: "مناسبة أخرى" },
 ];
+
+const OccasionSelect = ({ value, onChange }) => {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef(null);
+  const current = OCCASIONS.find((o) => o.value === value);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
+    };
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const pick = (v) => {
+    onChange({ target: { name: "occasion", value: v } });
+    setOpen(false);
+  };
+
+  return (
+    <div className={`select ${open ? "is-open" : ""}`} ref={wrapRef}>
+      <button
+        type="button"
+        id="occasion"
+        className={`select__btn ${current ? "" : "is-placeholder"}`}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span>{current ? current.label : "اختر نوع المناسبة"}</span>
+        <svg className="select__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
+
+      <ul className="select__list" role="listbox" aria-labelledby="occasion">
+        {OCCASIONS.map((o) => (
+          <li key={o.value} role="option" aria-selected={o.value === value}>
+            <button type="button" className={`select__opt ${o.value === value ? "is-selected" : ""}`} onClick={() => pick(o.value)}>
+              <span>{o.label}</span>
+              <svg className="select__check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 const todayStr = new Date().toISOString().split("T")[0];
 
@@ -129,16 +185,7 @@ const Form = () => {
         <label htmlFor="occasion">
           المناسبة <span className="req">*</span>
         </label>
-        <select id="occasion" name="occasion" value={formData.occasion} onChange={handleChange}>
-          <option value="" disabled>
-            اختر نوع المناسبة
-          </option>
-          {OCCASIONS.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
+        <OccasionSelect value={formData.occasion} onChange={handleChange} />
         <p className="form-error">الرجاء اختيار المناسبة</p>
       </div>
 

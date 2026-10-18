@@ -4,10 +4,6 @@ const Hero = () => {
   return (
     <div className="hero">
       <div className="hero__content">
-        <span className="hero__eyebrow">
-          <span className="name">KEO</span>
-        </span>
-
         <h1 className="hero__title">
           نُوثّق لحظاتكم <em>بعين هادئة</em>
           <br />
