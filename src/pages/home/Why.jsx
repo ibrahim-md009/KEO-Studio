@@ -1,47 +1,47 @@
 import FadeAnimation from "../../components/ui/FadeAnimation";
-import { Camera, Sun, Heart } from "lucide-react";
+import { Camera } from "lucide-react";
+import useCached from "../../hooks/useChached";
+import { QUERIES } from "../../services/queries";
+import { WHY_ICONS, DEFAULT_WHY } from "../../config/siteContent";
 
-const whyItems = [
-  {
-    Icon: Camera,
-    h3: "عين احترافية",
-    p: "فريق مصورين مدرّب على التقاط اللحظة الحقيقية، بعيداً عن الوضعيات المصطنعة.",
-  },
-  {
-    Icon: Sun,
-    h3: "إضاءة مدروسة",
-    p: "استديو مجهّز بإضاءة احترافية قابلة للتعديل حسب طبيعة كل جلسة ومزاجها.",
-  },
-  {
-    Icon: Heart,
-    h3: "اهتمام بالتفاصيل",
-    p: "من التنسيق قبل الجلسة إلى التسليم، نتابع كل خطوة بعناية شخصية.",
-  },
-];
+const { key, fetcher } = QUERIES.siteContent;
+
 const Why = () => {
+  // المحتوى جاي من الداشبورد (Firestore)، ولو مش موجود نعرض الافتراضي
+  const { data } = useCached(key, fetcher);
+  const why = data?.why;
+
+  const eyebrow = why?.eyebrow ?? DEFAULT_WHY.eyebrow;
+  const title = why?.title ?? DEFAULT_WHY.title;
+  const text = why?.text ?? DEFAULT_WHY.text;
+  const cards = Array.isArray(why?.cards) ? why.cards : DEFAULT_WHY.cards;
+
   return (
     <FadeAnimation as="section" className="section">
       <div className="container">
         <div className="section__head ">
-          <span className="section__eyebrow">ليه كيو</span>
+          {eyebrow && <span className="section__eyebrow">{eyebrow}</span>}
 
-          <h2 className="section__title">تجربة تصوير هادئة، بنتيجة تبقى</h2>
-          <p className="section__text">نتعامل مع كل جلسة كقصة قائمة بذاتها، بإضاءة وتفاصيل تُحاكي طابعكم الخاص.</p>
+          {title && <h2 className="section__title">{title}</h2>}
+          {text && <p className="section__text">{text}</p>}
         </div>
 
-        <div className="grid-3">
-          {whyItems.map((item, i) => {
-            return (
-              <FadeAnimation key={i} className="icard no-copy ">
-                <div className="icard__icon">
-                  <item.Icon />
-                </div>
-                <h3 className="icard__title">{item.h3}</h3>
-                <p className="icard__text">{item.p}</p>
-              </FadeAnimation>
-            );
-          })}
-        </div>
+        {cards.length > 0 && (
+          <div className="grid-3">
+            {cards.map((item, i) => {
+              const Icon = WHY_ICONS[item.icon] || Camera;
+              return (
+                <FadeAnimation key={i} className="icard no-copy ">
+                  <div className="icard__icon">
+                    <Icon />
+                  </div>
+                  <h3 className="icard__title">{item.title}</h3>
+                  <p className="icard__text">{item.text}</p>
+                </FadeAnimation>
+              );
+            })}
+          </div>
+        )}
       </div>
     </FadeAnimation>
   );

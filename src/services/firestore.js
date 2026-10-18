@@ -21,16 +21,6 @@
 //   }));
 // };
 
-// export const getNews = async () => {
-//   const q = query(collection(db, "news"), orderBy("createdAt", "desc"));
-//   const snapshot = await getDocs(q);
-
-//   return snapshot.docs.map((doc) => ({
-//     id: doc.id,
-//     ...doc.data(),
-//   }));
-// };
-
 // export const getStatistics = async () => {
 //   const q = query(collection(db, "statistics"), orderBy("createdAt", "desc"));
 //   const snapshot = await getDocs(q);
@@ -41,7 +31,7 @@
 //   }));
 // };
 
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, query, orderBy } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 // Firestore بيرجّع createdAt كـ Timestamp object (فيه .toDate())
@@ -73,16 +63,25 @@ export const getCategories = async () => {
   }));
 };
 
-export const getNews = async () => {
-  const q = query(collection(db, "news"), orderBy("createdAt", "desc"));
-  const snapshot = await getDocs(q);
-
-  return snapshot.docs.map(normalizeDoc);
-};
-
 export const getStatistics = async () => {
   const q = query(collection(db, "statistics"), orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map(normalizeDoc);
+};
+
+// محتوى الصفحة الرئيسية اللي بيتحكم فيه الداشبورد (collection: siteContent)
+// doc "why"   => { eyebrow, title, text, cards: [{ icon, title, text }] }
+// doc "about" => { title, text1, text2 }
+// لو الـ doc مش موجود بنرجّع null والكومبوننت يعرض النصوص الافتراضية
+export const getSiteContent = async () => {
+  const [whySnap, aboutSnap] = await Promise.all([
+    getDoc(doc(db, "siteContent", "why")),
+    getDoc(doc(db, "siteContent", "about")),
+  ]);
+
+  return {
+    why: whySnap.exists() ? whySnap.data() : null,
+    about: aboutSnap.exists() ? aboutSnap.data() : null,
+  };
 };

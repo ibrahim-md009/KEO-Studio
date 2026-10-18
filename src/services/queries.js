@@ -1,10 +1,10 @@
-import { getNews, getWorks, getCategories, getStatistics } from "./firestore";
+import { getWorks, getCategories, getStatistics, getSiteContent } from "./firestore";
 import { cached } from "./cache";
 
 export const QUERIES = {
-  news: { key: "news", fetcher: getNews },
   works: { key: "works-page", fetcher: () => Promise.all([getWorks(), getCategories()]) },
   statistics: { key: "statistics", fetcher: getStatistics },
+  siteContent: { key: "site-content", fetcher: getSiteContent },
 };
 
 // استدعيها مرة واحدة عند تشغيل التطبيق: البيانات تبقى جاهزة قبل ما المستخدم يفتح الصفحة
