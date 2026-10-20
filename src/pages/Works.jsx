@@ -1,42 +1,11 @@
 import { useState, useEffect } from "react";
 import FadeAnimation from "../components/ui/FadeAnimation";
+import VideoItem from "../components/ui/VideoItem";
 import useCached from "../hooks/useChached";
 import { QUERIES } from "../services/queries";
 import Final from "../components/layout/Final";
 import { optimizeImg } from "../utils/optimizeImg";
-
-// فيديو يوتيوب بنظام "الغلاف أولاً": صورة + زر تشغيل، والـ iframe ما بيتحمّل إلا بعد الضغط
-const VideoItem = ({ id, title }) => {
-  const [playing, setPlaying] = useState(false);
-  return (
-    <div className="yt-frame">
-      {playing ? (
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
-          title={title || "فيديو"}
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-        />
-      ) : (
-        <>
-          <img
-            src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
-            alt={title || "فيديو"}
-            loading="lazy"
-            decoding="async"
-          />
-          <button type="button" className="yt-play" aria-label="تشغيل الفيديو" onClick={() => setPlaying(true)}>
-            <span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
-          </button>
-        </>
-      )}
-    </div>
-  );
-};
+import { isValidVideo } from "../utils/video";
 
 const Works = () => {
   const { data, loading } = useCached(QUERIES.works.key, QUERIES.works.fetcher);
@@ -53,7 +22,7 @@ const Works = () => {
 
   const getSubImages = (item) => item.subImages || [];
   const getAllImages = (item) => [item.img, ...getSubImages(item)].filter(Boolean);
-  const getVideos = (item) => (item.videos || []).filter((v) => v && v.id);
+  const getVideos = (item) => (item.videos || []).filter(isValidVideo);
 
   const openGallery = (item) =>
     setLightbox({ open: true, images: getAllImages(item), videos: getVideos(item), title: item.title || "" });
@@ -158,9 +127,9 @@ const Works = () => {
                   {i === 0 && lightbox.title && <figcaption className="lightbox__caption">{lightbox.title}</figcaption>}
                 </figure>
               ))}
-              {lightbox.videos.map((v) => (
-                <figure className="lightbox__scroll-item" key={v.id}>
-                  <VideoItem id={v.id} title={lightbox.title} />
+              {lightbox.videos.map((v, i) => (
+                <figure className="lightbox__scroll-item" key={v.url || v.id || i}>
+                  <VideoItem video={v} title={lightbox.title} />
                 </figure>
               ))}
             </div>

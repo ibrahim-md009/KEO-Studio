@@ -31,7 +31,7 @@
 //   }));
 // };
 
-import { collection, getDocs, getDoc, doc, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, query, orderBy, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 // Firestore بيرجّع createdAt كـ Timestamp object (فيه .toDate())
@@ -51,6 +51,13 @@ export const getWorks = async () => {
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map(normalizeDoc);
+};
+
+// الأعمال المميزة (النجمة بالداشبورد) للصفحة الرئيسية
+// فلتر واحد على حقل واحد = ما بيحتاج index مركّب، والترتيب (الأحدث أولاً) بنعمله هون
+export const getFeaturedWorks = async () => {
+  const snapshot = await getDocs(query(collection(db, "works"), where("featured", "==", true)));
+  return snapshot.docs.map(normalizeDoc).sort((a, b) => new Date(b.createdAt ?? 0) - new Date(a.createdAt ?? 0));
 };
 
 export const getCategories = async () => {
@@ -73,15 +80,18 @@ export const getStatistics = async () => {
 // محتوى الصفحة الرئيسية اللي بيتحكم فيه الداشبورد (collection: siteContent)
 // doc "why"   => { eyebrow, title, text, cards: [{ icon, title, text }] }
 // doc "about" => { title, text1, text2 }
+// doc "video" => { videoId, eyebrow, title, text }  (الفيديو التعريفي تحت الهيرو)
 // لو الـ doc مش موجود بنرجّع null والكومبوننت يعرض النصوص الافتراضية
 export const getSiteContent = async () => {
-  const [whySnap, aboutSnap] = await Promise.all([
+  const [whySnap, aboutSnap, videoSnap] = await Promise.all([
     getDoc(doc(db, "siteContent", "why")),
     getDoc(doc(db, "siteContent", "about")),
+    getDoc(doc(db, "siteContent", "video")),
   ]);
 
   return {
     why: whySnap.exists() ? whySnap.data() : null,
     about: aboutSnap.exists() ? aboutSnap.data() : null,
+    video: videoSnap.exists() ? videoSnap.data() : null,
   };
 };
