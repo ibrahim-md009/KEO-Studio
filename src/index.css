@@ -297,13 +297,18 @@ textarea:focus-visible {
 body.no-scroll {
   overflow: hidden;
 }
-
+.left-header {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
 /* WhatsApp صغير بجانب زر اللغة */
 .nav__whatsapp {
   width: 42px;
   height: 42px;
   border-radius: 50%;
   display: inline-flex;
+  background-color: red;
   align-items: center;
   justify-content: center;
   background: var(--cream-2);
@@ -371,7 +376,8 @@ body.no-scroll {
   .nav__toggle {
     display: none;
   }
-  .nav__links {
+  .nav__links,
+  .nav__cta {
     display: none;
   }
   .nav__overlay {
@@ -623,7 +629,6 @@ body.no-scroll {
 .btn--whatsapp:hover {
   background: var(--olive-dark);
   transform: translateY(-2px);
-  color: var(--gold);
 }
 .btn--full {
   width: 100%;
@@ -2064,7 +2069,7 @@ body {
   /* أزرار التحكم العلوية: صغيرة ومتقاربة */
   .nav__inner {
     direction: ltr;
-    justify-content: flex-start;
+    justify-content: space-between;
   }
   .nav__logo {
     direction: rtl;
