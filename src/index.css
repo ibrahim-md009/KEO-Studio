@@ -90,6 +90,7 @@ html {
 }
 
 body {
+  -webkit-tap-highlight-color: transparent;
   font-family: var(--font-body);
   background: var(--cream);
   color: var(--charcoal);
