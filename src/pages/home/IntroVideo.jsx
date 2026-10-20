@@ -25,7 +25,11 @@ const IntroVideo = () => {
             {text && <p className="section__text">{text}</p>}
           </div>
         )}
-        <VideoItem video={videoUrl ? { url: videoUrl } : { id: videoId }} title={title || "الفيديو التعريفي"} />
+        <VideoItem
+          video={videoUrl ? { url: videoUrl } : { id: videoId }}
+          title={title || "الفيديو التعريفي"}
+          autoPlay
+        />
       </div>
     </FadeAnimation>
   );
