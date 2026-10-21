@@ -10,7 +10,8 @@ import PlayIcon from "./PlayIcon";
 // المتصفحات بتمنع الصوت التلقائي قبل أي تفاعل من الزائر، فلو انمنع بيشتغل صامت
 // وبيتفعّل الصوت أول ما الزائر يلمس/يضغط بأي مكان (أو من زر الصوت).
 // initialPlaying: يبدأ التشغيل مباشرة بدون غلاف (جوه المودال)
-const CloudVideo = ({ url, title, autoPlay = false, reel = false, initialPlaying = false }) => {
+// ratio (اختياري): نسبة عرض/ارتفاع مخصصة للإطار (مثلاً نفس أبعاد صورة العمل) بدل 16:9
+const CloudVideo = ({ url, title, autoPlay = false, reel = false, initialPlaying = false, ratio }) => {
   const [playing, setPlaying] = useState(initialPlaying);
   const [inView, setInView] = useState(false);
   const [needsSound, setNeedsSound] = useState(false);
@@ -103,7 +104,11 @@ const CloudVideo = ({ url, title, autoPlay = false, reel = false, initialPlaying
   };
 
   return (
-    <div className={`yt-frame ${reel ? "yt-frame--reel" : ""}`} ref={frameRef}>
+    <div
+      className={`yt-frame ${reel ? "yt-frame--reel" : ""}`}
+      ref={frameRef}
+      style={ratio ? { aspectRatio: ratio } : undefined}
+    >
       {playing ? (
         <>
           <video

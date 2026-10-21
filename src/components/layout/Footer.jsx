@@ -4,6 +4,7 @@ import { WHATSAPP_LINK } from "../../config/constans";
 const navLinks = [
   { path: "/", label: "الرئيسية" },
   { path: "/works", label: "أعمالنا" },
+  { path: "/news", label: "الأخبار" },
   { path: "/faq", label: "الأسئلة" },
   { path: "/booking", label: "الحجز" },
 ];

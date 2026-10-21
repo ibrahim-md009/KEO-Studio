@@ -5,6 +5,7 @@ import { WHATSAPP_LINK } from "../../config/constans";
 const navLinks = [
   { name: "الرئيسية", url: "/" },
   { name: "أعمالنا", url: "/works" },
+  { name: "الأخبار", url: "/news" },
   { name: "الأسئلة", url: "/faq" },
 ];
 

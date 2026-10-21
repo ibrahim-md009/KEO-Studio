@@ -1,36 +1,3 @@
-// import { collection, getDocs, query, orderBy } from "firebase/firestore";
-// import { db } from "../firebase/firebase";
-
-// export const getWorks = async () => {
-//   const q = query(collection(db, "works"), orderBy("createdAt", "desc"));
-//   const snapshot = await getDocs(q);
-
-//   return snapshot.docs.map((doc) => ({
-//     id: doc.id,
-//     ...doc.data(),
-//   }));
-// };
-
-// export const getCategories = async () => {
-//   const q = query(collection(db, "categories"), orderBy("name"));
-//   const snapshot = await getDocs(q);
-
-//   return snapshot.docs.map((doc) => ({
-//     id: doc.data().name,
-//     label: doc.data().name,
-//   }));
-// };
-
-// export const getStatistics = async () => {
-//   const q = query(collection(db, "statistics"), orderBy("createdAt", "desc"));
-//   const snapshot = await getDocs(q);
-
-//   return snapshot.docs.map((doc) => ({
-//     id: doc.id,
-//     ...doc.data(),
-//   }));
-// };
-
 import { collection, getDocs, getDoc, doc, query, orderBy, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
@@ -58,6 +25,14 @@ export const getWorks = async () => {
 export const getFeaturedWorks = async () => {
   const snapshot = await getDocs(query(collection(db, "works"), where("featured", "==", true)));
   return snapshot.docs.map(normalizeDoc).sort((a, b) => new Date(b.createdAt ?? 0) - new Date(a.createdAt ?? 0));
+};
+
+// الأخبار (collection: news) — الأحدث أولاً. كل خبر: { mainImage, subImages, videos, mainDesc, subDesc, createdAt }
+export const getNews = async () => {
+  const q = query(collection(db, "news"), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map(normalizeDoc);
 };
 
 export const getCategories = async () => {

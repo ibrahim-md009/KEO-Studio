@@ -5,8 +5,16 @@ import useCached from "../../hooks/useChached";
 import { QUERIES } from "../../services/queries";
 import { optimizeImg } from "../../utils/optimizeImg";
 import { isValidVideo } from "../../utils/video";
+import useImageRatio from "../../hooks/useImageRatio";
 
 const { key, fetcher } = QUERIES.featured;
+
+// الفيديو بيشتغل مباشرة بمكانه (بدون مودال)، بإطار بنفس أبعاد صورة العمل عشان الكرت ما يتغيّر حجمه
+const FeaturedVideo = ({ video, item }) => {
+  const src = optimizeImg(item.img, 900);
+  const ratio = useImageRatio(src);
+  return <VideoItem video={video} title={item.title} ratio={ratio} />;
+};
 
 // "أعمال مميزة": الأعمال اللي عليها نجمة بالداشبورد. بنعرض أول فيديو للعمل (إن وجد)،
 // وإلا صورته الرئيسية. لو ما في أي عمل مميز القسم كله بيختفي.
@@ -30,7 +38,7 @@ const FeaturedWorks = () => {
             return (
               <article className="featured__card" key={item.id}>
                 {video ? (
-                  <VideoItem video={video} title={item.title} modal ratioSrc={optimizeImg(item.img, 900)} />
+                  <FeaturedVideo video={video} item={item} />
                 ) : (
                   <Link to="/works" className="featured__img" aria-label={item.title}>
                     <img src={optimizeImg(item.img, 900)} alt={item.title} loading="lazy" decoding="async" />

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { CircleQuestionMark, Calendar, House, Camera } from "lucide-react";
+import { CircleQuestionMark, Calendar, House, Camera, Newspaper } from "lucide-react";
 
 const navItems = [
   {
@@ -12,6 +12,11 @@ const navItems = [
     path: "/works",
     label: "أعمالنا",
     icon: Camera,
+  },
+  {
+    path: "/news",
+    label: "الأخبار",
+    icon: Newspaper,
   },
   {
     path: "/faq",

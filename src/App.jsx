@@ -8,6 +8,7 @@ import MobNav from "./components/layout/MobNav";
 
 // الصفحات الثانية تتحمل وقت الحاجة (كود Firebase و framer-motion ما يتحملوش مع الرئيسية)
 const Works = lazy(() => import("./pages/Works"));
+const News = lazy(() => import("./pages/News"));
 const Faq = lazy(() => import("./pages/Faq"));
 const Booking = lazy(() => import("./pages/booking"));
 
@@ -18,6 +19,7 @@ const App = () => {
     const warmUp = () => {
       import("./services/queries").then((m) => m.prefetchAll());
       import("./pages/Works");
+      import("./pages/News");
       import("./pages/booking");
       import("./pages/Faq");
     };
@@ -34,6 +36,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/works" element={<Works />} />
+          <Route path="/news" element={<News />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/booking" element={<Booking />} />
         </Routes>
