@@ -30,7 +30,7 @@ const FeaturedWorks = () => {
             return (
               <article className="featured__card" key={item.id}>
                 {video ? (
-                  <VideoItem video={video} title={item.title} />
+                  <VideoItem video={video} title={item.title} modal ratioSrc={optimizeImg(item.img, 900)} />
                 ) : (
                   <Link to="/works" className="featured__img" aria-label={item.title}>
                     <img src={optimizeImg(item.img, 900)} alt={item.title} loading="lazy" decoding="async" />

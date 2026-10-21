@@ -1,13 +1,15 @@
 import { useState } from "react";
+import PlayIcon from "./PlayIcon";
 
 // فيديو يوتيوب بنظام "الغلاف أولاً": صورة + زر تشغيل، والـ iframe ما بيتحمّل إلا بعد الضغط
-const YouTubeFrame = ({ id, title }) => {
-  const [playing, setPlaying] = useState(false);
+// controls=0 → نخفي أزرار يوتيوب، و reel → إطار عمودي 9:16
+const YouTubeFrame = ({ id, title, reel = false, startPlaying = false }) => {
+  const [playing, setPlaying] = useState(startPlaying);
   return (
-    <div className="yt-frame">
+    <div className={`yt-frame ${reel ? "yt-frame--reel" : ""}`}>
       {playing ? (
         <iframe
-          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
+          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&controls=0&modestbranding=1&playsinline=1&disablekb=1`}
           title={title || "فيديو"}
           allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
           allowFullScreen
@@ -21,11 +23,7 @@ const YouTubeFrame = ({ id, title }) => {
             decoding="async"
           />
           <button type="button" className="yt-play" aria-label="تشغيل الفيديو" onClick={() => setPlaying(true)}>
-            <span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
+            <PlayIcon />
           </button>
         </>
       )}

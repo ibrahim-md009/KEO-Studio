@@ -129,7 +129,12 @@ const Works = () => {
               ))}
               {lightbox.videos.map((v, i) => (
                 <figure className="lightbox__scroll-item" key={v.url || v.id || i}>
-                  <VideoItem video={v} title={lightbox.title} />
+                  <VideoItem
+                    video={v}
+                    title={lightbox.title}
+                    modal
+                    ratioSrc={lightbox.images[0] ? optimizeImg(lightbox.images[0], 1600) : undefined}
+                  />
                 </figure>
               ))}
             </div>

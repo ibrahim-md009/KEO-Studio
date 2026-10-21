@@ -1,19 +1,26 @@
 import { useState, useEffect, useRef } from "react";
 import { videoSrc, videoPoster } from "../../utils/video";
+import PlayIcon from "./PlayIcon";
 
 // فيديو مرفوع (Cloudinary) بنظام "الغلاف أولاً": صورة خفيفة + زر تشغيل،
 // وعنصر <video> ما بيتركّب (ولا بيحمّل أي بايت من الفيديو) إلا بعد الضغط → ما بيأثر على سرعة الموقع.
+// الكنترولز الافتراضية مخفية: الضغط على الفيديو = إيقاف/تشغيل، وزر التشغيل المميز بيظهر وقت الإيقاف.
+// reel: إطار عمودي 9:16 زي الريلز.
 // autoPlay (الفيديو التعريفي): يشتغل تلقائياً لما يظهر بالشاشة، وبصوت.
 // المتصفحات بتمنع الصوت التلقائي قبل أي تفاعل من الزائر، فلو انمنع بيشتغل صامت
 // وبيتفعّل الصوت أول ما الزائر يلمس/يضغط بأي مكان (أو من زر الصوت).
-const CloudVideo = ({ url, title, autoPlay = false }) => {
-  const [playing, setPlaying] = useState(false);
+// initialPlaying: يبدأ التشغيل مباشرة بدون غلاف (جوه المودال)
+const CloudVideo = ({ url, title, autoPlay = false, reel = false, initialPlaying = false }) => {
+  const [playing, setPlaying] = useState(initialPlaying);
   const [inView, setInView] = useState(false);
   const [needsSound, setNeedsSound] = useState(false);
+  const [paused, setPaused] = useState(false); // الزائر أوقف الفيديو (أو خلص) → نبين زر التشغيل
   const [ready, setReady] = useState(false); // أول إطار انعرض فعلاً → نشيل الغلاف بنعومة
   const [src, setSrc] = useState(() => videoSrc(url));
   const frameRef = useRef(null);
   const videoRef = useRef(null);
+  const userPaused = useRef(false); // الزائر أوقفه بإيده → ما نشغّله تلقائياً مع الظهور
+  const unmutedAt = useRef(0); // عشان أول ضغطة (تفعيل الصوت) ما توقف الفيديو
   const poster = videoPoster(url);
 
   // نراقب الفيديو بمراقبين: "قريب" (قبل ما نوصله بـ ~800px) نركّب العنصر ونبدأ التحميل بهدوء،
@@ -49,6 +56,7 @@ const CloudVideo = ({ url, title, autoPlay = false }) => {
       video.pause();
       return;
     }
+    if (userPaused.current) return; // الزائر أوقفه بنفسه → نحترم قراره
     video.muted = needsSound;
     video.play().catch(() => {
       video.muted = true;
@@ -56,6 +64,12 @@ const CloudVideo = ({ url, title, autoPlay = false }) => {
       video.play().catch(() => {});
     });
   }, [autoPlay, playing, inView]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // فيديو الأعمال (بدون autoPlay): لو المتصفح منع التشغيل التلقائي نبين زر التشغيل
+  useEffect(() => {
+    if (autoPlay || !playing) return;
+    videoRef.current?.play().catch(() => setPaused(true));
+  }, [autoPlay, playing]);
 
   // أول تفاعل من الزائر → نفعّل الصوت
   useEffect(() => {
@@ -66,6 +80,7 @@ const CloudVideo = ({ url, title, autoPlay = false }) => {
         video.muted = false;
         video.volume = 1;
       }
+      unmutedAt.current = Date.now();
       setNeedsSound(false);
     };
     const events = ["pointerdown", "touchend", "keydown", "click"];
@@ -73,21 +88,39 @@ const CloudVideo = ({ url, title, autoPlay = false }) => {
     return () => events.forEach((e) => window.removeEventListener(e, unmute));
   }, [needsSound]);
 
+  // الضغط على الفيديو (أو على زر التشغيل) = إيقاف/تشغيل
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (Date.now() - unmutedAt.current < 500) return; // الضغطة دي كانت لتفعيل الصوت بس
+    if (video.paused) {
+      userPaused.current = false;
+      video.play().catch(() => {});
+    } else {
+      userPaused.current = true;
+      video.pause();
+    }
+  };
+
   return (
-    <div className="yt-frame" ref={frameRef}>
+    <div className={`yt-frame ${reel ? "yt-frame--reel" : ""}`} ref={frameRef}>
       {playing ? (
         <>
           <video
             ref={videoRef}
             src={src}
             poster={poster || undefined}
-            controls
             autoPlay={!autoPlay}
             loop={autoPlay}
             onLoadedData={() => setReady(true)}
+            onPlay={() => setPaused(false)}
+            onPause={() => setPaused(true)}
+            onClick={togglePlay}
             playsInline
             preload="auto"
-            controlsList="nodownload"
+            disablePictureInPicture
+            disableRemotePlayback
+            aria-label={title || "فيديو"}
             onVolumeChange={(e) => e.currentTarget.muted === false && setNeedsSound(false)}
             // لو فشل التحويل التلقائي (ملف كبير) نرجع للأصل
             onError={() => src !== url && setSrc(url)}
@@ -99,6 +132,11 @@ const CloudVideo = ({ url, title, autoPlay = false }) => {
               alt=""
               aria-hidden="true"
             />
+          )}
+          {paused && ready && (
+            <button type="button" className="yt-play yt-play--overlay" aria-label="تشغيل الفيديو" onClick={togglePlay}>
+              <PlayIcon />
+            </button>
           )}
           {needsSound && (
             <button
@@ -122,11 +160,7 @@ const CloudVideo = ({ url, title, autoPlay = false }) => {
         <>
           {poster && <img className="cloud-poster" src={poster} alt={title || "فيديو"} loading="lazy" decoding="async" />}
           <button type="button" className="yt-play" aria-label="تشغيل الفيديو" onClick={() => setPlaying(true)}>
-            <span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
+            <PlayIcon />
           </button>
         </>
       )}

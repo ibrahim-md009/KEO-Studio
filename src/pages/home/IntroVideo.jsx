@@ -29,6 +29,7 @@ const IntroVideo = () => {
           video={videoUrl ? { url: videoUrl } : { id: videoId }}
           title={title || "الفيديو التعريفي"}
           autoPlay
+          reel
         />
       </div>
     </FadeAnimation>
