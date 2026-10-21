@@ -238,8 +238,9 @@ textarea:focus-visible {
 .nav__cta {
   background: var(--olive-dark);
   color: var(--white-soft) !important;
-  padding: 10px 22px;
-  border-radius: var(--radius);
+  height: 42px;
+  padding: 0 24px;
+  border-radius: 26px; /* نفس استدارة ناف بار الموبايل والآيباد */
   font-size: 0.88rem;
   font-weight: 700;
   display: inline-flex;
@@ -301,7 +302,7 @@ body.no-scroll {
 .left-header {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 12px;
 }
 /* WhatsApp صغير بجانب زر اللغة */
 .nav__whatsapp {
@@ -309,7 +310,6 @@ body.no-scroll {
   height: 42px;
   border-radius: 50%;
   display: inline-flex;
-  background-color: red;
   align-items: center;
   justify-content: center;
   background: var(--cream-2);
@@ -2553,4 +2553,91 @@ body {
 .featured__more {
   margin-top: 36px;
   text-align: center;
+}
+
+/* ===== إصلاحات الصفحة الرئيسية ===== */
+/* مسافات أقل بين الأقسام الجديدة (الفيديو التعريفي + الأعمال المميزة) */
+.hero:has(+ .intro-video) {
+  padding-bottom: 36px;
+}
+.intro-video {
+  padding: 20px 0 64px;
+}
+.section:has(+ .section.featured) {
+  padding-bottom: 56px;
+}
+.section.featured {
+  padding: 40px 0 84px;
+}
+@media (max-width: 640px) {
+  .hero:has(+ .intro-video) {
+    padding-bottom: 20px;
+  }
+  .intro-video {
+    padding: 12px 0 44px;
+  }
+  .section:has(+ .section.featured) {
+    padding-bottom: 36px;
+  }
+  .section.featured {
+    padding: 24px 0 64px;
+  }
+  .featured__grid {
+    gap: 22px;
+  }
+}
+
+/* الصورة كاملة بدون قص (ما نقصّ الوجوه) */
+.featured__img {
+  aspect-ratio: auto;
+  max-height: 78svh;
+}
+.featured__img img {
+  height: auto;
+  max-height: 78svh;
+  object-fit: contain;
+}
+/* غلاف الفيديو المرفوع: يبين كامل (أفقي أو عمودي) */
+.yt-frame img.cloud-poster {
+  object-fit: contain;
+}
+
+/* زر تفعيل الصوت */
+.yt-sound {
+  position: absolute;
+  bottom: 56px;
+  right: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 22px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.yt-sound svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* سلاسة الفيديو التعريفي: غلاف فوق الفيديو لحد ما يجهز، وطبقة مستقلة للرسم */
+.yt-frame {
+  contain: layout paint;
+}
+.yt-frame video {
+  transform: translateZ(0);
+}
+.yt-frame img.cloud-poster--cover {
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.yt-frame img.cloud-poster--cover.is-hidden {
+  opacity: 0;
 }
