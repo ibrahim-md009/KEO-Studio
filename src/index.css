@@ -2235,8 +2235,9 @@ body {
 
 /* ============================================
    سحب الشريط السفلي — مؤشر متحرك بإحساس iOS / Telegram
+   (لكل الشاشات: موبايل وديسكتوب)
    ============================================ */
-@media (max-width: 860px) {
+@media all {
   .bottom-nav.has-pill {
     touch-action: pan-y; /* السحب الأفقي لنا، والتمرير العمودي للمتصفح */
     -webkit-user-select: none;
@@ -2884,5 +2885,243 @@ body {
     gap: 16px;
     padding: 12px;
     border-radius: 20px;
+  }
+}
+
+
+/* ============================================================
+   ديسكتوب (861px وأكبر): نفس تصميم ناف بار الموبايل بحجم أصغر
+   - كبسولة علوية زجاجية (شعار + واتساب) + شريط سفلي بالكبسولة الزيتية المتحركة
+   ============================================================ */
+@media (min-width: 861px) {
+  /* روابط وزر الحجز القديمة بالأعلى انتقلت للشريط السفلي، زي الموبايل */
+  .nav__links,
+  .nav__cta {
+    display: none;
+  }
+
+  /* ---- الكبسولة العلوية ---- */
+  .nav,
+  .nav.is-scrolled {
+    top: 12px;
+    left: 50%;
+    right: auto;
+    width: min(calc(100% - 48px), 1000px);
+    transform: translateX(-50%);
+    padding: 0;
+    border-radius: 22px;
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    isolation: isolate;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+      0 10px 28px rgba(16, 53, 44, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  }
+  .nav::before,
+  .bottom-nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: rgba(255, 246, 221, 0.58);
+    -webkit-backdrop-filter: blur(20px) saturate(170%);
+    backdrop-filter: blur(20px) saturate(170%);
+    transition: background 0.3s ease;
+  }
+  .nav.is-scrolled::before {
+    background: rgba(255, 246, 221, 0.78);
+  }
+  .nav__inner {
+    direction: ltr;
+    justify-content: space-between;
+    min-height: 50px;
+    padding: 4px 12px;
+    gap: 10px;
+    max-width: none;
+    margin: 0;
+  }
+  .nav__logo {
+    direction: rtl;
+  }
+  .nav__logo .brand-mark {
+    height: 30px;
+  }
+  .nav__whatsapp {
+    width: 34px;
+    height: 34px;
+    margin-left: auto;
+  }
+  .nav__whatsapp svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  /* ---- الشريط السفلي (نفس الموبايل، أصغر) ---- */
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    left: 50%;
+    right: auto;
+    bottom: 14px;
+    transform: translateX(-50%);
+    z-index: 200;
+    width: 360px;
+    max-width: calc(100% - 24px);
+    height: 58px;
+    box-sizing: border-box;
+    padding: 4px;
+    gap: 2px;
+    justify-content: space-between;
+    border-radius: 22px;
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    isolation: isolate;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+      0 10px 28px rgba(16, 53, 44, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+  .bottom-nav__item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 4px 2px;
+    gap: 2px;
+    border-radius: 17px;
+    color: var(--olive-dark);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition:
+      color 0.3s ease,
+      background 0.25s ease;
+  }
+  .bottom-nav__item:hover {
+    background: rgba(25, 77, 65, 0.07);
+  }
+  .bottom-nav__item svg {
+    width: 15px;
+    height: 15px;
+  }
+  .bottom-nav__item span {
+    font-size: 0.56rem;
+    font-weight: 700;
+    line-height: 1.1;
+    white-space: nowrap;
+    opacity: 0.9;
+  }
+  /* الكبسولة الزيتية المتحركة بنفس استدارة العناصر */
+  .bottom-nav__pill {
+    border-radius: 17px;
+  }
+  .bottom-nav.has-pill .bottom-nav__item.is-active:hover {
+    background: transparent !important;
+  }
+}
+
+/* ============================================================
+   ديسكتوب (901px وأكبر): الهيرو بعمودين
+   النص على اليمين (أصغر) + الفيديو التعريفي على اليسار
+   ============================================================ */
+@media (min-width: 901px) {
+  .home-top {
+    position: relative;
+    min-height: 100svh;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: clamp(40px, 6vw, 96px);
+    padding: 100px max(32px, calc((100% - 1100px) / 2)) 84px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 60% 45% at 20% 8%, rgba(203, 161, 53, 0.2), transparent 60%),
+      radial-gradient(ellipse 55% 50% at 85% 15%, rgba(100, 152, 127, 0.3), transparent 55%),
+      linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+  }
+  .home-top::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(25, 77, 65, 0.08) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
+    pointer-events: none;
+  }
+
+  /* النص: يمين + أصغر */
+  .home-top > .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 0;
+    padding: 0;
+    background: none;
+    overflow: visible;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: right;
+  }
+  .home-top > .hero::before {
+    display: none;
+  }
+  .home-top .hero__content {
+    align-items: flex-start;
+  }
+  .home-top .hero__title {
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    line-height: 1.5;
+    max-width: 16ch;
+  }
+  .home-top .hero__subtitle {
+    margin-top: 20px;
+    font-size: 1rem;
+    max-width: 42ch;
+  }
+  .home-top .hero__cta-row {
+    justify-content: flex-start;
+    margin-top: 30px;
+    gap: 12px;
+  }
+  .home-top .hero__cta-row .btn {
+    width: auto;
+    min-width: 170px;
+    min-height: 50px;
+    padding: 12px 26px;
+    font-size: 0.95rem;
+    border-radius: 22px;
+  }
+
+  /* الفيديو التعريفي: عمود اليسار داخل الهيرو (بدون خلفية القسم) */
+  .home-top > .intro-video {
+    position: relative;
+    z-index: 1;
+    width: min(340px, calc(70svh * 9 / 16));
+    padding: 0;
+    background: none;
+  }
+  .home-top > .intro-video .container {
+    max-width: none;
+    padding: 0;
+  }
+  .home-top > .intro-video .intro-video__head {
+    display: none;
+  }
+  .home-top > .intro-video .yt-frame--reel {
+    width: 100%;
+    max-width: none;
+    margin: 0;
   }
 }

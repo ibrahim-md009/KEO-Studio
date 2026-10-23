@@ -8,8 +8,11 @@ import Final from "../../components/layout/Final";
 const index = () => {
   return (
     <>
-      <Hero />
-      <IntroVideo />
+      {/* على الديسكتوب: النص يمين والفيديو التعريفي يسار داخل نفس الهيرو (CSS)، وعلى الموبايل زي ما كانوا تحت بعض */}
+      <div className="home-top">
+        <Hero />
+        <IntroVideo />
+      </div>
       <Why />
       <FeaturedWorks />
       <About />
