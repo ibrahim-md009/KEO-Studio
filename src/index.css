@@ -2903,3 +2903,29 @@ body {
     font-size: clamp(0.58rem, 2.7vw, 0.74rem);
   }
 }
+
+
+/* ===== الناف أطول 5px ===== */
+.nav__inner {
+  min-height: 49px;
+}
+@media (max-width: 860px) {
+  .nav__inner {
+    min-height: 45px;
+  }
+}
+
+/* ===== فيديو الأعمال المميزة: نفس حجم الفيديو التعريفي ===== */
+.featured__card .yt-frame--reel {
+  max-width: min(100%, 440px, calc(80vh * 9 / 16));
+  max-width: min(100%, 440px, calc(80svh * 9 / 16));
+}
+@media (min-width: 901px) {
+  .featured__card .yt-frame--reel {
+    width: min(340px, calc(70svh * 9 / 16));
+    max-width: none;
+  }
+}
+.featured__card:has(.yt-frame--reel) .featured__info {
+  text-align: center;
+}

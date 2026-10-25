@@ -5,16 +5,11 @@ import useCached from "../../hooks/useChached";
 import { QUERIES } from "../../services/queries";
 import { optimizeImg } from "../../utils/optimizeImg";
 import { isValidVideo } from "../../utils/video";
-import useImageRatio from "../../hooks/useImageRatio";
 
 const { key, fetcher } = QUERIES.featured;
 
-// الفيديو بيشتغل مباشرة بمكانه (بدون مودال)، بإطار بنفس أبعاد صورة العمل عشان الكرت ما يتغيّر حجمه
-const FeaturedVideo = ({ video, item }) => {
-  const src = optimizeImg(item.img, 900);
-  const ratio = useImageRatio(src);
-  return <VideoItem video={video} title={item.title} ratio={ratio} />;
-};
+// الفيديو بيشتغل مباشرة بمكانه (بدون مودال)، بإطار ريلز 9:16 بنفس حجم الفيديو التعريفي
+const FeaturedVideo = ({ video, item }) => <VideoItem video={video} title={item.title} reel />;
 
 // "أعمال مميزة": الأعمال اللي عليها نجمة بالداشبورد. بنعرض أول فيديو للعمل (إن وجد)،
 // وإلا صورته الرئيسية. لو ما في أي عمل مميز القسم كله بيختفي.
