@@ -4,7 +4,6 @@ import ScrollToTop from "./components/layout/ScrollToTop";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import Home from "./pages/home";
-import MobNav from "./components/layout/MobNav";
 
 // الصفحات الثانية تتحمل وقت الحاجة (كود Firebase و framer-motion ما يتحملوش مع الرئيسية)
 const Works = lazy(() => import("./pages/Works"));
@@ -41,7 +40,6 @@ const App = () => {
           <Route path="/booking" element={<Booking />} />
         </Routes>
       </Suspense>
-      <MobNav />
       <Footer />
     </>
   );

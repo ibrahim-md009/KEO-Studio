@@ -7,6 +7,7 @@ const navLinks = [
   { name: "أعمالنا", url: "/works" },
   { name: "الأخبار", url: "/news" },
   { name: "الأسئلة", url: "/faq" },
+  { name: "الحجز", url: "/booking" },
 ];
 
 const Header = () => {
@@ -39,10 +40,6 @@ const Header = () => {
         </nav>
 
         <div className="left-header">
-          <Link to="/booking" className="nav__cta">
-            احجز موعدك
-          </Link>
-
           <a
             className="nav__whatsapp"
             href={WHATSAPP_LINK}
