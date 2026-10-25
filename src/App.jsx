@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
+import MobNav from "./components/layout/MobNav";
 import Home from "./pages/home";
 
 // الصفحات الثانية تتحمل وقت الحاجة (كود Firebase و framer-motion ما يتحملوش مع الرئيسية)
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/booking" element={<Booking />} />
         </Routes>
       </Suspense>
+      <MobNav />
       <Footer />
     </>
   );

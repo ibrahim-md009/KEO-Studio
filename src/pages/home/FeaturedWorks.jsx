@@ -1,15 +1,35 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import FadeAnimation from "../../components/ui/FadeAnimation";
 import VideoItem from "../../components/ui/VideoItem";
 import useCached from "../../hooks/useChached";
 import { QUERIES } from "../../services/queries";
 import { optimizeImg } from "../../utils/optimizeImg";
+import useImageRatio from "../../hooks/useImageRatio";
 import { isValidVideo } from "../../utils/video";
 
 const { key, fetcher } = QUERIES.featured;
 
-// الفيديو بيشتغل مباشرة بمكانه (بدون مودال)، بإطار ريلز 9:16 بنفس حجم الفيديو التعريفي
-const FeaturedVideo = ({ video, item }) => <VideoItem video={video} title={item.title} reel />;
+const DESKTOP_QUERY = "(min-width: 861px)";
+const useIsDesktop = () => {
+  const [desktop, setDesktop] = useState(() => window.matchMedia(DESKTOP_QUERY).matches);
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_QUERY);
+    const onChange = (e) => setDesktop(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return desktop;
+};
+
+// الفيديو بيشتغل مباشرة بمكانه (بدون مودال).
+// ديسكتوب: إطار ريلز 9:16 بنفس حجم الفيديو التعريفي. موبايل: بنفس أبعاد صورة العمل (زي الأصل).
+const FeaturedVideo = ({ video, item }) => {
+  const desktop = useIsDesktop();
+  const src = optimizeImg(item.img, 900);
+  const ratio = useImageRatio(src);
+  return <VideoItem video={video} title={item.title} reel={desktop} ratio={desktop ? undefined : ratio} />;
+};
 
 // "أعمال مميزة": الأعمال اللي عليها نجمة بالداشبورد. بنعرض أول فيديو للعمل (إن وجد)،
 // وإلا صورته الرئيسية. لو ما في أي عمل مميز القسم كله بيختفي.
