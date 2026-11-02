@@ -82,7 +82,7 @@ const News = () => {
                       )}
                       {date && <span className="news-item__date">{date}</span>}
                     </div>
-                    <div>
+                    <div className="news-item__body">
                       <h3 className="news-item__title">{item.mainDesc || "(بدون عنوان)"}</h3>
                       <p className="news-item__text">{item.subDesc}</p>
 

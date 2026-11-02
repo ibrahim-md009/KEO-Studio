@@ -2797,12 +2797,14 @@ body {
   max-width: 920px;
   margin-inline: auto;
 }
+/* المنشور طولي (صورة فوق والنص تحت) على كل الشاشات */
 .news-item {
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-  gap: 28px;
-  align-items: center;
-  padding: 18px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  align-content: start;
+  padding: 14px;
   background: var(--white-soft);
   border: 1px solid rgba(100, 152, 127, 0.18);
   border-radius: 24px;
@@ -2818,7 +2820,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 460px;
+  max-height: 560px;
   object-fit: cover;
 }
 .news-item__media .yt-frame {
@@ -2968,7 +2970,7 @@ body {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     column-gap: clamp(40px, 6vw, 96px);
-    padding: 100px max(32px, calc((100% - 1100px) / 2)) 84px;
+    padding: 100px max(32px, calc((100% - 1240px) / 2)) 84px;
     overflow: hidden;
     background:
       radial-gradient(ellipse 60% 45% at 20% 8%, rgba(203, 161, 53, 0.2), transparent 60%),
@@ -3004,34 +3006,35 @@ body {
     align-items: flex-start;
   }
   .home-top .hero__title {
-    font-size: clamp(2rem, 3.5vw, 3.2rem);
-    line-height: 1.5;
-    max-width: 16ch;
+    font-size: clamp(2.6rem, 4.6vw, 4.4rem);
+    line-height: 1.55;
+    max-width: none;
   }
   .home-top .hero__subtitle {
-    margin-top: 20px;
-    font-size: 1rem;
-    max-width: 42ch;
+    margin-top: 26px;
+    font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+    line-height: 2;
+    max-width: 34em;
   }
   .home-top .hero__cta-row {
     justify-content: flex-start;
-    margin-top: 30px;
-    gap: 12px;
+    margin-top: 40px;
+    gap: 16px;
   }
   .home-top .hero__cta-row .btn {
     width: auto;
-    min-width: 170px;
-    min-height: 50px;
-    padding: 12px 26px;
-    font-size: 0.95rem;
-    border-radius: 22px;
+    min-width: 210px;
+    min-height: 60px;
+    padding: 14px 34px;
+    font-size: 1.1rem;
+    border-radius: 26px;
   }
 
   /* الفيديو التعريفي: عمود اليسار داخل الهيرو (بدون خلفية القسم) */
   .home-top > .intro-video {
     position: relative;
     z-index: 1;
-    width: min(340px, calc(70svh * 9 / 16));
+    width: min(380px, calc(74svh * 9 / 16));
     padding: 0;
     background: none;
   }
@@ -3142,5 +3145,72 @@ body {
   .featured__card .yt-frame--reel {
     width: min(340px, calc(70svh * 9 / 16));
     max-width: none;
+  }
+}
+
+
+/* ============================================================
+   الأخبار (ديسكتوب): منشورات طولية جنب بعض بحجم مناسب
+   ============================================================ */
+.news-item__body {
+  padding: 0 6px 6px;
+}
+@media (min-width: 721px) {
+  .news-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 1140px;
+    gap: 28px;
+  }
+  .news-item {
+    flex: 0 1 350px;
+    min-width: 0;
+  }
+  .news-list > .empty-msg {
+    flex: 1 1 100%;
+  }
+}
+
+/* ============================================================
+   الأعمال المميزة (ديسكتوب): العنوان + الريل + الزر يبانوا مع بعض بالشاشة
+   ارتفاع الريل = ارتفاع الشاشة - (العنوان + النص + الزر)
+   ============================================================ */
+@media (min-width: 901px) {
+  .section.featured {
+    padding: 28px 0 56px;
+  }
+  .section.featured .section__head {
+    margin-bottom: 28px;
+  }
+  .featured__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 28px;
+  }
+  /* 3 أعمال بصف واحد عشان القسم كله يبان بشاشة وحدة */
+  .featured__card:nth-child(n + 4) {
+    display: none;
+  }
+  .featured__card {
+    --reel-w: clamp(200px, calc((100svh - 400px) * 9 / 16), 340px);
+    flex: 0 0 var(--reel-w);
+    width: var(--reel-w);
+  }
+  .featured__card .yt-frame--reel {
+    width: var(--reel-w);
+    max-width: none;
+  }
+  .featured__card .featured__img {
+    max-height: calc(var(--reel-w) * 16 / 9);
+  }
+  .featured__card .featured__img img {
+    max-height: calc(var(--reel-w) * 16 / 9);
+  }
+  .featured__more {
+    margin-top: 28px;
   }
 }
